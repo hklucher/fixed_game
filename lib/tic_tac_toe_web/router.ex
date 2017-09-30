@@ -7,6 +7,14 @@ defmodule TicTacToeWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    #plug Guardian.Plug.VerifySession
+    #plug Guardian.Plug.LoadResource
+  end
+
+  pipeline :browser_auth do
+    plug Guardian.Plug.VerifySession
+    plug Guardian.Plug.EnsureAuthenticated, handler: TicTacToe.Token
+    plug Guardian.Plug.LoadResource
   end
 
   pipeline :api do
@@ -17,6 +25,7 @@ defmodule TicTacToeWeb.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    resources "/sessions", SessionController, only: [:new, :create, :delete]
   end
 
   # Other scopes may use custom stacks.

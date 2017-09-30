@@ -6,6 +6,7 @@ defmodule TicTacToe.Player.User do
 
   schema "users" do
     field :username, :string
+    field :password_hash, :string
 
     timestamps()
   end
@@ -13,7 +14,7 @@ defmodule TicTacToe.Player.User do
   @doc false
   def changeset(%User{} = user, attrs) do
     user
-    |> cast(attrs, [:username])
+    |> cast(attrs, [:username, :password_hash])
     |> validate_required([:username])
     |> unique_constraint(:username)
   end

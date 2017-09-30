@@ -45,7 +45,9 @@ defmodule TicTacToe.Mixfile do
       {:phoenix_haml, "~> 0.2"},
       {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
       {:guardian, "~> 1.0-beta"},
-      {:figaro_elixir, "~> 1.0.0"}
+      {:figaro_elixir, "~> 1.0.0"},
+      {:comeonin, "~> 4.0"},
+      {:bcrypt_elixir, "~> 1.0"}
     ]
   end
 

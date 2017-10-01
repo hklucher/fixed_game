@@ -27,10 +27,12 @@ defmodule TicTacToeWeb.Router do
     get "/", PageController, :index
     resources "/sessions", SessionController, only: [:new, :create, :delete]
     resources "/users", UserController, only: [:new, :create]
+    resources "/games", GameController, only: [:new]
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", TicTacToeWeb do
-  #   pipe_through :api
-  # end
+   scope "/api", TicTacToeWeb do
+     pipe_through :api
+     resources "/games", Api.GameController, only: [:new]
+   end
 end

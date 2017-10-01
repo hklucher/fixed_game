@@ -1,1 +1,11 @@
 %h1 Sign Up
+
+= form_for @conn, user_path(@conn, :create), [as: :user], fn f ->
+  .form-group
+    = text_input f, :username, placeholder: "Username", class: "form-control"
+  .form-group
+    = password_input f, :password, placeholder: "Password", class: "form-control"
+  .form-group
+    = submit "Sign In", class: "btn btn-primary"
+- end
+

@@ -8,12 +8,10 @@ defmodule TicTacToeWeb.UserController do
   end
 
   def create(conn, %{"user" => %{"username" => username, "password" => password}}) do
-    changeset = User.changeset(%User{}, %{username: username, passsword: password})  
+    changeset = User.registration_changeset(%User{}, %{username: username, password: password})  
     case Repo.insert(changeset) do
       {:ok, _changeset} ->
         conn |> redirect(to: "/")
-      {:error, _changeset} ->
-        render conn, "new.html"
       _ ->
         render conn, "new.html"
     end

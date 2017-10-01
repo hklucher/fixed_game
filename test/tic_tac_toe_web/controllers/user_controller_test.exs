@@ -1,7 +1,10 @@
 defmodule TicTacToeWeb.UserControllerTest do
   use TicTacToeWeb.ConnCase
 
-  alias TicTacToe.Player
+  alias TicTacToe.Player.User
+  alias TicTacToe.Repo
+
+  import Ecto.Query
 
   @create_attrs %{username: "username", password: "password"}
   @invalid_attrs %{username: "", password: ""}
@@ -27,6 +30,12 @@ defmodule TicTacToeWeb.UserControllerTest do
     test "redirects home when successful", %{conn: conn} do
       conn = post conn, user_path(conn, :create), user: @create_attrs
       assert redirected_to(conn) =~ "/"
+    end
+
+    test "should set the users password_hash", %{conn: conn} do
+      post conn, user_path(conn, :create), user: @create_attrs
+      user = Repo.one(from x in User, order_by: [desc: x.id], limit: 1)
+      assert user.password != nil
     end
   end
 end

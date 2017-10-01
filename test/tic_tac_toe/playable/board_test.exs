@@ -27,4 +27,22 @@ defmodule TicTacToe.Playable.BoardTest do
       refute Board.horizontally_won?(board)
     end
   end
+
+  describe "vertically_won?/1" do
+    test "returns a boolean" do
+      board = generate_board()
+      result = Board.vertically_won?(board)
+      assert Enum.member?([true, false], result)
+    end
+
+    test "returns false when not vertically won" do
+      board = generate_board()
+      refute Board.vertically_won?(board)
+    end
+
+    test "returns true when board has been vertically won by X" do
+      board = generate_board(:vertical_victory, "X")
+      assert Board.vertically_won?(board)
+    end
+  end
 end

@@ -10,26 +10,29 @@ defmodule TicTacToe.Playable.Board do
   will return true. Otherwise, will return false.
   """
   def horizontally_won?(board) do
-    board
-    |> Map.values
-    |> Enum.chunk(3)
-    |> Enum.any? fn(row) -> length(row |> Enum.uniq) == 1 end
+    board |> to_rows |> Enum.any?(fn(row) -> length(row |> Enum.uniq) == 1 end)
   end
 
+  @doc """
+  Converts board to a 2-D list of 3 to serve as rows. Will check
+  each item at each index by index (0, 3) to see if any are all equal.
+  If they are, return true. Otherwise, return false.
+  """
   def vertically_won?(board) do
-    rows = board |> Map.values |> Enum.chunk(3)
-    vertically_won?(rows, 0)
+    vertically_won?(rows(board), 0)
   end
 
   defp vertically_won?(_rows, 3), do: false
 
-  defp vertically_won?([row_1, row_2, row_3], index) do
-    vertical_pattern = Enum.map([row_1, row_2, row_3], fn(row) -> Enum.at(row, index) end)
+  defp vertically_won?(rows, index) do
+    vertical_pattern = Enum.map(rows, fn(row) -> Enum.at(row, index) end)
 
     if length(Enum.uniq(vertical_pattern)) == 1 do
       true
     else
-      vertically_won?([row_1, row_2, row_3], index + 1)
+      vertically_won?(rows, index + 1)
     end
   end
+
+  defp to_rows(board), do: board |> Map.values |> Enum.chunk(3)
 end

@@ -20,7 +20,8 @@ defmodule TicTacToe.Mixfile do
   def application do
     [
       mod: {TicTacToe.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools],
+      figaro_elixir: []
     ]
   end
 
@@ -40,7 +41,13 @@ defmodule TicTacToe.Mixfile do
       {:phoenix_html, "~> 2.10"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
-      {:cowboy, "~> 1.0"}
+      {:cowboy, "~> 1.0"},
+      {:phoenix_haml, "~> 0.2"},
+      {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
+      {:guardian, "~> 0.14.5"},
+      {:figaro_elixir, "~> 1.0.0"},
+      {:comeonin, "~> 4.0"},
+      {:bcrypt_elixir, "~> 1.0"}
     ]
   end
 

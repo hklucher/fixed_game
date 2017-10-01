@@ -56,3 +56,14 @@ config :tic_tac_toe, TicTacToe.Repo,
   database: "tic_tac_toe_dev",
   hostname: "localhost",
   pool_size: 10
+
+config :guardian, Guardian,
+  allowed_algos: ["HS512"],
+  verify_module: Guardian.JWT,
+  issuer: "TicTacToe",
+  ttl: {30, :days},
+  secret_key: "7qWZpFAxTXO0ONCEzW/CIcUCAxZv/MxkDDIs3/8idZnx7Me+196rjKYj3GtIA8qU",
+  verify_issuer: true,
+  error_handler: TicTacToe.AuthErrorHandler,
+  serializer: TicTacToe.GuardianSerializer
+

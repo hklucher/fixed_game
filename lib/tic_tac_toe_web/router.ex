@@ -24,7 +24,7 @@ defmodule TicTacToeWeb.Router do
   scope "/", TicTacToeWeb do
     pipe_through :browser # Use the default browser stack
 
-    get "/", PageController, :index
+    get "/", GameController, :new
     resources "/sessions", SessionController, only: [:new, :create, :delete]
     resources "/users", UserController, only: [:new, :create]
     resources "/games", GameController, only: [:new]

@@ -26,7 +26,7 @@ defmodule TicTacToeWeb.Router do
 
     get "/", PageController, :index
     resources "/sessions", SessionController, only: [:new, :create, :delete]
-    resources "/users", SessionController, only: [:new, :create]
+    resources "/users", UserController, only: [:new, :create]
   end
 
   # Other scopes may use custom stacks.

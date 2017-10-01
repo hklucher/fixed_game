@@ -1,4 +1,4 @@
-defmodule TicTacToe.Repo.Migrations.AddPasswordToUsers do
+defmodule TicTacToe.Repo.Migrations.AddPasswordHashToUsers do
   use Ecto.Migration
 
   def change do

@@ -19,7 +19,7 @@ defmodule TicTacToe.Playable.Board do
   If they are, return true. Otherwise, return false.
   """
   def vertically_won?(board) do
-    vertically_won?(rows(board), 0)
+    vertically_won?(to_rows(board), 0)
   end
 
   defp vertically_won?(_rows, 3), do: false

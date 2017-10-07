@@ -29,21 +29,23 @@ defmodule TicTacToe.BoardGenerator do
   def generate_board(board, count, _) when count >= 9, do: board
 
   def generate_board(board, count, "X") do 
-    new_board = board
-
-    unless Map.has_key?(new_board, count) do
-      new_board = Map.put(board, count, "X")
-    end
+    new_board = 
+      if Map.has_key?(board, count) do
+        Map.put(board, count, "X")
+      else
+        board
+      end
 
     generate_board(new_board, count + 1, "O")
   end
 
   def generate_board(board, count, "O") do
-    new_board = board
-
-    unless Map.has_key?(new_board, count) do
-      new_board = Map.put(board, count, "O")
-    end
+    new_board =
+      if Map.has_key?(board, count) do
+        Map.put(board, count, "O")
+      else
+        board
+      end
 
     generate_board(new_board, count + 1, "X")
   end

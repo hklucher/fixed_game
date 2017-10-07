@@ -9,6 +9,7 @@ defmodule TicTacToe.Playable.Board do
   any of these rows all have the same value. If that is the case, the function
   will return true. Otherwise, will return false.
   """
+  @spec horizontally_won?(map) :: boolean
   def horizontally_won?(board) do
     board |> to_rows |> Enum.any?(fn(row) -> length(row |> Enum.uniq) == 1 end)
   end
@@ -18,6 +19,7 @@ defmodule TicTacToe.Playable.Board do
   each item at each index by index (0, 3) to see if any are all equal.
   If they are, return true. Otherwise, return false.
   """
+  @spec vertically_won?(map) :: boolean
   def vertically_won?(board) do
     vertically_won?(to_rows(board), 0)
   end
@@ -34,6 +36,11 @@ defmodule TicTacToe.Playable.Board do
     end
   end
 
+  @doc """
+  Assumes a 3x3 board, and will check if the values at any possible
+  diagonal spots are all the same. If so, return true, otherwise, false.
+  """
+  @spec diagonally_won?(map) :: boolean
   def diagonally_won?(board) do
     diagonally_won?(board, [0, 4, 8]) || diagonally_won?(board, [2, 4, 6])
   end

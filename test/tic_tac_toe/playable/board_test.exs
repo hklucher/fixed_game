@@ -45,4 +45,22 @@ defmodule TicTacToe.Playable.BoardTest do
       assert Board.vertically_won?(board)
     end
   end
+
+  describe "diagonally_won?/1" do
+    test "returns a boolean" do
+      board = generate_board()
+      result = Board.diagonally_won?(board)
+      assert Enum.member?([true, false], result)
+    end
+
+    test "given a board won diagonally (top left to bottom right), it returns true" do
+      board = generate_board(:left_diagonal_victory, "X")
+      assert Board.diagonally_won?(board)
+    end
+
+    test "given a board won diagonally (top right to bottom left), it returns true" do
+      board = generate_board(:right_diagonal_victory, "O")
+      assert Board.diagonally_won?(board)
+    end
+  end
 end

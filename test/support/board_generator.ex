@@ -16,6 +16,16 @@ defmodule TicTacToe.BoardGenerator do
     generate_board(%{0 => marker, 3 => marker, 6 => marker}, 0, marker)   
   end
 
+  def generate_board(:left_diagonal_victory, marker) do
+    board = %{0 => marker, 4 => marker, 8 => marker}
+    generate_board(board, 1, marker)
+  end
+
+  def generate_board(:right_diagonal_victory, marker) do
+    board = %{2 => marker, 4 => marker, 6 => marker}
+    generate_board(board, 0, marker)
+  end
+
   def generate_board(board, count, _) when count >= 9, do: board
 
   def generate_board(board, count, "X") do 

@@ -34,5 +34,14 @@ defmodule TicTacToe.Playable.Board do
     end
   end
 
+  def diagonally_won?(board) do
+    diagonally_won?(board, [0, 4, 8]) || diagonally_won?(board, [2, 4, 6])
+  end
+
+  defp diagonally_won?(board, spots) do
+    diagonal_values = board |> Map.take(spots) |> Map.values()
+    length(Enum.uniq(diagonal_values)) == 1
+  end
+
   defp to_rows(board), do: board |> Map.values |> Enum.chunk(3)
 end

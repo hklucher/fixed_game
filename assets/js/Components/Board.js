@@ -15,11 +15,11 @@ export class Board extends Component {
       "6": "",
       "7": "",
       "8": ""
-    }
+    };
   }
 
   handleMove(index) {
-    this.setState({ [index]: "X" })
+    this.setState({ [index]: "X" });
   }
 
   renderGrid() {

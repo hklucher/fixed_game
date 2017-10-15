@@ -1,29 +1,52 @@
 import React, { Component } from "react";
 import Spot from "./Spot";
+import { Socket } from "phoenix"
 
 export class Board extends Component {
   constructor(props) {
     super(props);
 
+    this.channel = null;
+
     this.state = {
-      "0": "",
-      "1": "",
-      "2": "",
-      "3": "",
-      "4": "",
-      "5": "",
-      "6": "",
-      "7": "",
-      "8": ""
+      board: {
+        "0": "",
+        "1": "",
+        "2": "",
+        "3": "",
+        "4": "",
+        "5": "",
+        "6": "",
+        "7": "",
+        "8": ""
+      }
     };
   }
 
+  componentDidMount() {
+    let socket = new Socket("/socket", {params: {token: window.userToken}})
+
+    socket.connect()
+
+    this.channel = socket.channel("game", {})
+    // TODO: Handle failed connections in state.
+    this.channel.join()
+      .receive("ok", resp => { console.log("Joined successfully", resp) })
+      .receive("error", resp => { console.log("Unable to join", resp) })
+
+    this.channel.on("move", payload => {
+      this.setState({ board: payload.board })
+    })
+  }
+
   handleMove(index) {
-    this.setState({ [index]: "X" });
+    this.setState({ board: { ...this.state.board, [index]: "X" }}, () => {
+      this.channel.push("move", this.state)
+    });
   }
 
   renderGrid() {
-    const spots = Object.keys(this.state);
+    const spots = Object.keys(this.state.board);
     return (
       spots.map(spotNum => {
         return (
@@ -31,7 +54,7 @@ export class Board extends Component {
             index={spotNum}
             key={spotNum}
             onClick={this.handleMove.bind(this)}
-            value={this.state[spotNum]} 
+            value={this.state.board[spotNum]} 
           /> 
         )
       })

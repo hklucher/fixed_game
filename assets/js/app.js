@@ -22,7 +22,7 @@ import "phoenix_html"
 //
 import React from "react"
 import { render } from "react-dom"
-import Board from "./Board.js"
+import Board from "./Components/Board.js"
 
 render(
   <Board/>,

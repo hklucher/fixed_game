@@ -1,0 +1,11 @@
+.spot {
+  border: 1px solid black;
+  font-size: 100px;
+  height: 150px;
+  text-align: center;
+  width: 100px;
+}
+
+.spot:hover {
+  cursor: pointer;
+}

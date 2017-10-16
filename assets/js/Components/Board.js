@@ -28,19 +28,27 @@ export class Board extends Component {
 
     socket.connect()
 
-    this.channel = socket.channel("game", {})
+    this.channel = socket.channel("game", {user_id: USER_ID})
     // TODO: Handle failed connections in state.
     this.channel.join()
-      .receive("ok", resp => { console.log("Joined successfully", resp) })
+      .receive("ok", resp => { console.log("Joined!", resp) })
       .receive("error", resp => { console.log("Unable to join", resp) })
 
     this.channel.on("move", payload => {
       this.setState({ board: payload.board })
     })
+
+    this.channel.push("get_marker", {})
+
+    this.channel.on("get_marker", payload => {
+      if (!this.marker) {
+        this.marker = payload.marker
+      }
+    })
   }
 
   handleMove(index) {
-    this.setState({ board: { ...this.state.board, [index]: "X" }}, () => {
+    this.setState({ board: { ...this.state.board, [index]: this.marker }}, () => {
       this.channel.push("move", this.state)
     });
   }

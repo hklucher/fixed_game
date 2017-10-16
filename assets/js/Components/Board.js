@@ -28,7 +28,7 @@ export class Board extends Component {
 
     socket.connect()
 
-    this.channel = socket.channel("game", {})
+    this.channel = socket.channel("game", {user_id: USER_ID})
     // TODO: Handle failed connections in state.
     this.channel.join()
       .receive("ok", resp => { console.log("Joined!", resp) })

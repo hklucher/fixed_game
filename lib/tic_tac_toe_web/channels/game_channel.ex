@@ -15,7 +15,11 @@ defmodule TicTacToeWeb.GameChannel do
   end
 
   def handle_in("get_marker", _params, socket) do
-    broadcast(socket, "get_marker", %{marker: "X"})
+    user_ids = socket |> Presence.list |> Map.keys
+    IO.inspect "DOWN THERE"
+    IO.inspect user_ids
+    marker = if length(user_ids) == 1, do: "X", else: "O"
+    broadcast(socket, "get_marker", %{marker: marker})
     {:noreply, socket}
   end
 

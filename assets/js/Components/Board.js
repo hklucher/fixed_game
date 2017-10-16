@@ -41,12 +41,14 @@ export class Board extends Component {
     this.channel.push("get_marker", {})
 
     this.channel.on("get_marker", payload => {
-      console.log('MARKER', payload)
+      if (!this.marker) {
+        this.marker = payload.marker
+      }
     })
   }
 
   handleMove(index) {
-    this.setState({ board: { ...this.state.board, [index]: "X" }}, () => {
+    this.setState({ board: { ...this.state.board, [index]: this.marker }}, () => {
       this.channel.push("move", this.state)
     });
   }

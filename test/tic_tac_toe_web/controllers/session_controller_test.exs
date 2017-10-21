@@ -1,13 +1,14 @@
 defmodule TicTacToeWeb.SessionControllerTest do
   use TicTacToeWeb.ConnCase
 
-  def session_params(attrs \\ %{}) do
-    %{"session" => %{"username" => "username", "password" => "password"}}
+  def session_params(user) do
+    %{"session" => %{"username" => user.username, "password" => user.password}}
   end
 
   describe "logging in with correct params" do
     test "populates a flash message", %{conn: conn} do
-      conn = post(conn, session_path(conn, :create), session_params())
+      user = insert(:user)
+      conn = post(conn, session_path(conn, :create), session_params(user))
       flash = get_flash(conn)
       assert flash["info"] == "Logged In"
     end

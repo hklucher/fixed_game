@@ -10,7 +10,9 @@ defmodule TicTacToeWeb.GameController do
         |> assign(:user_id, Guardian.Plug.current_resource(conn).id)
         |> render("new.html")
       _ ->
-        conn |> redirect(to: session_path(conn, :new))
+        conn
+        |> put_flash(:error, "You need to login to do that!")
+        |> redirect(to: session_path(conn, :new))
     end
   end
 end

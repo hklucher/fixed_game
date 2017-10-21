@@ -20,5 +20,11 @@ defmodule TicTacToeWeb.GameControllerTest do
       conn = get(conn, game_path(conn, :new))
       assert redirected_to(conn, 302) =~ "/sessions/new"
     end
+
+    test "should populate a flash message with reason for redirect", %{conn: conn} do
+      conn = get(conn, game_path(conn, :new))
+      flash = get_flash(conn)
+      assert flash["error"] == "You need to login to do that!"
+    end
   end
 end

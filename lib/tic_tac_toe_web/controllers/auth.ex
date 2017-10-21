@@ -4,7 +4,6 @@ defmodule TicTacToeWeb.Auth do
   """
 
   import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
-  import Plug.Conn
 
   alias TicTacToe.Player.User
 

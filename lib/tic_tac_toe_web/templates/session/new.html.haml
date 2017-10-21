@@ -1,11 +1,12 @@
-%h1 Sign In
+.form-container
+  %h2 Sign In
 
-= form_for @conn, session_path(@conn, :create), [as: :session], fn f ->
-  .form-group
-    = text_input f, :username, placeholder: "Username", class: "form-control"
-  .form-group
-    = password_input f, :password, placeholder: "Password", class: "form-control"
-  .form-group
-    = submit "Sign In", class: "btn btn-primary"
-- end
+  = form_for @conn, session_path(@conn, :create), [as: :session], fn f ->
+    .form-group
+      = text_input f, :username, placeholder: "Username", class: "form-control"
+    .form-group
+      = password_input f, :password, placeholder: "Password", class: "form-control"
+    .form-group
+      = submit "Sign In", class: "btn form-submit"
+  - end
 

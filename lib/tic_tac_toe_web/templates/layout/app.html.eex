@@ -7,29 +7,59 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Hello TicTacToe!</title>
+    <title>Fixed Game</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <link href="https://fonts.googleapis.com/css?family=Raleway|Roboto" rel="stylesheet">
   </head>
 
   <body>
-    <div class="container">
-      <header class="header">
-        <%= if Guardian.Plug.current_resource(@conn) do %>
-          <p><%= "Logged in as #{Guardian.Plug.current_resource(@conn).username}" %></p>
-          <p><%= link("Log Out", to: session_path(@conn, :delete), method: :delete) %></p>
-        <% else %>
-          <%= link("Log In", to: session_path(@conn, :new)) %>
-        <% end %>
-      </header>
+    <header class="header">
+      <h4 class="nav-logo">Fixed Game</h4>
 
+      <%= if Guardian.Plug.current_resource(@conn) do %>
+        <div class="nav-right">
+          <div class="row">
+            <div class="col-sm-6">
+              <%= link("Log Out", to: session_path(@conn, :delete), method: :delete, class: "nav-link") %>
+            </div>
+
+            <div class="col-sm-6">
+              <%= Guardian.Plug.current_resource(@conn).username %>
+            </div>
+          </div>
+        </div>
+      <% else %>
+        <div class="nav-right">
+          <p class="nav-text">
+            <%= link("Log In", to: session_path(@conn, :new), class: "nav-link login-link") %>
+          </p>
+
+          <p class="nav-text">
+            <%= link("Sign Up", to: user_path(@conn, :new), class: "nav-link login-link") %>
+          </p>
+        </div>
+      <% end %>
+    </header>
+
+    <div class="container">
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+      <div id="alert-info"/>
 
       <main role="main">
         <%= render @view_module, @view_template, assigns %>
       </main>
-
     </div> <!-- /container -->
+
+    <%#NOTE: This has to go below main because react prevents the rest of the DOM from rendering...%>
+    <%#Figure out why%>
+    <%= if get_flash(@conn, :error) do %>
+      <%= content_tag(:div, "", id: "alert-danger-mount", data: [content: get_flash(@conn, :error)]) %>
+    <% end %>
+
+    <%= if get_flash(@conn, :info) do %>
+      <%= content_tag(:div, "", id: "alert-info-mount", data: [content: get_flash(@conn, :info)]) %>
+    <% end %>
+
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

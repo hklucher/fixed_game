@@ -16,13 +16,16 @@
     <header class="header">
       <h4 class="nav-logo">Fixed Game</h4>
       <%= if Guardian.Plug.current_resource(@conn) do %>
-        <p><%= "Logged in as #{Guardian.Plug.current_resource(@conn).username}" %></p>
-        <p><%= link("Log Out", to: session_path(@conn, :delete), method: :delete, class: "nav-link") %></p>
+        <div class="nav-right">
+          <p class="nav-text"><%= link("Log Out", to: session_path(@conn, :delete), method: :delete, class: "nav-link") %></p>
+          <p class="nav-text"><%= Guardian.Plug.current_resource(@conn).username %></p>
+        </div>
       <% else %>
         <%= link("Sign Up", to: session_path(@conn, :new), class: "nav-link login-link") %>
         <%= link("Log In", to: session_path(@conn, :new), class: "nav-link login-link") %>
       <% end %>
     </header>
+
     <div class="container">
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <div id="alert-info"/>

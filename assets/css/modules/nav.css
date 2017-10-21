@@ -9,6 +9,10 @@ header {
   width: 95%;
 }
 
+.header__current-user {
+  float: right;
+}
+
 .nav-logo {
   border-right: 1px solid #fffbfa;
   color: #fffbfa;
@@ -33,4 +37,8 @@ header {
 
 .login-link {
   margin-left: 1em;
+}
+
+.nav-text {
+  color: #FFFBFA;
 }

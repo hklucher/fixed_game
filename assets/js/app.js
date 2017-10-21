@@ -23,7 +23,6 @@ import socket from "./socket"
 import React from "react"
 import { render } from "react-dom"
 import Board from "./Components/Board.js"
-import AlertInfo from "./Utilities/AlertInfo.js"
 
 // TODO: Move this to new game view
 if (document.getElementById("new-game")) {

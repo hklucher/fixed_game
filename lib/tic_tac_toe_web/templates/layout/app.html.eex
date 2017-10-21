@@ -18,18 +18,27 @@
 
       <%= if Guardian.Plug.current_resource(@conn) do %>
         <div class="nav-right">
-          <p class="nav-text"><%= link("Log Out", to: session_path(@conn, :delete), method: :delete, class: "nav-link") %></p>
-          <p class="nav-text"><%= Guardian.Plug.current_resource(@conn).username %></p>
+          <div class="row">
+            <div class="col-sm-6">
+              <%= Guardian.Plug.current_resource(@conn).username %>
+            </div>
+
+            <div class="col-sm-6">
+              <%= link("Log Out", to: session_path(@conn, :delete), method: :delete, class: "nav-link") %>
+            </div>
+          </div>
         </div>
       <% else %>
         <div class="nav-right">
-          <p class="nav-text">
-            <%= link("Log In", to: session_path(@conn, :new), class: "nav-link login-link") %>
-          </p>
+          <div class="row">
+            <div class="col-sm-6">
+              <%= link("Log In", to: session_path(@conn, :new), class: "nav-link login-link") %>
+            </div>
 
-          <p class="nav-text">
-            <%= link("Sign Up", to: user_path(@conn, :new), class: "nav-link login-link") %>
-          </p>
+            <div class="col-sm-6">
+              <%= link("Sign Up", to: user_path(@conn, :new), class: "nav-link login-link") %>
+            </div>
+          </div>
         </div>
       <% end %>
     </header>
@@ -47,6 +56,10 @@
     <%#Figure out why%>
     <%= if get_flash(@conn, :error) do %>
       <%= content_tag(:div, "", id: "alert-danger-mount", data: [content: get_flash(@conn, :error)]) %>
+    <% end %>
+
+    <%= if get_flash(@conn, :info) do %>
+      <%= content_tag(:div, "", id: "alert-info-mount", data: [content: get_flash(@conn, :info)]) %>
     <% end %>
 
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>

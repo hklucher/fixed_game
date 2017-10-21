@@ -42,3 +42,13 @@ if (document.getElementById("alert-danger-mount")) {
     document.getElementById(element.id)
   )
 }
+
+if (document.getElementById("alert-danger-mount")) {
+  const element = document.getElementById("alert-info-mount")
+  const text = element.getAttribute('data-content')
+
+  render (
+    <Alert content={text} type="info" />,
+    document.getElementById(element.id)
+  )
+}

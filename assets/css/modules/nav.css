@@ -3,14 +3,11 @@ header {
   background-color: #00bd9d;
   border-radius: 6px;
   box-shadow: 2px 3px #f0f5f5;
+  color: #fffbfa;
   display: flex !important;
   height: 60px;
   margin: 0 auto;
   width: 95%;
-}
-
-.header__current-user {
-  float: right;
 }
 
 .nav-logo {
@@ -44,7 +41,5 @@ header {
 }
 
 .nav-right {
-  display: flex;
-  justify-content: spcae-between;
-  width: 15%;
+  margin-left: 15px;
 }

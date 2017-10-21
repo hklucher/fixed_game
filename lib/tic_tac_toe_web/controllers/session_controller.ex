@@ -18,6 +18,9 @@ defmodule TicTacToeWeb.SessionController do
   end
 
   def delete(conn, _) do
-    conn |> Guardian.Plug.sign_out |> redirect(to: "/")
+    conn
+    |> Guardian.Plug.sign_out
+    |> put_flash(:info, "Successfully logged out.")
+    |> redirect(to: "/")
   end
 end

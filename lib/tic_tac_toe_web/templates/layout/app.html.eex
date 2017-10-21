@@ -16,6 +16,7 @@
       <header class="header">
         <%= if Guardian.Plug.current_resource(@conn) do %>
           <p><%= "Logged in as #{Guardian.Plug.current_resource(@conn).username}" %></p>
+          <p><%= link("Log Out", to: session_path(@conn, :delete), method: :delete) %></p>
         <% else %>
           <%= link("Log In", to: session_path(@conn, :new)) %>
         <% end %>

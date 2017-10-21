@@ -4,6 +4,6 @@ defmodule TicTacToeWeb.GameController do
   def new(conn, _params) do
     conn 
     |> assign(:user_id, Guardian.Plug.current_resource(conn).id)
-    |> render "new.html"
+    |> render("new.html")
   end
 end

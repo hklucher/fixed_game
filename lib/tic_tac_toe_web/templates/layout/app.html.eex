@@ -37,12 +37,18 @@
     <div class="container">
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <div id="alert-info"/>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
 
       <main role="main">
         <%= render @view_module, @view_template, assigns %>
       </main>
     </div> <!-- /container -->
+
+    <%#NOTE: This has to go below main because react prevents the rest of the DOM from rendering...%>
+    <%#Figure out why%>
+    <%= if get_flash(@conn, :error) do %>
+      <%= content_tag(:div, "", id: "alert-danger-mount", data: [content: get_flash(@conn, :error)]) %>
+    <% end %>
+
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

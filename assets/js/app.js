@@ -23,11 +23,22 @@ import socket from "./socket"
 import React from "react"
 import { render } from "react-dom"
 import Board from "./Components/Board.js"
+import Alert from "./Utilities/Alert.js"
 
 // TODO: Move this to new game view
 if (document.getElementById("new-game")) {
   render(
     <Board/>,
     document.getElementById("new-game")
+  )
+}
+
+if (document.getElementById("alert-danger-mount")) {
+  const element = document.getElementById("alert-danger-mount")
+  const text = element.getAttribute('data-content')
+
+  render (
+    <Alert content={text} type="danger" />,
+    document.getElementById(element.id)
   )
 }

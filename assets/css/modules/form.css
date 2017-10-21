@@ -8,3 +8,22 @@
   background-color: #49C6E5;
 }
 
+/* Chrome */
+input[type="text"]::-webkit-input-placeholder {
+  font-family: 'Raleway', sans-serif;
+}
+
+input[type="password"]::-webkit-input-placeholder {
+  font-family: 'Raleway', sans-serif;
+}
+
+/* Firefox */
+input[type="text"]::-moz-placeholder {
+  font-family: 'Raleway', sans-serif;
+}
+
+input[type="password"]::-moz-placeholder {
+  font-family: 'Raleway', sans-serif;
+}
+
+/* I'm doing this for fun so no IE */

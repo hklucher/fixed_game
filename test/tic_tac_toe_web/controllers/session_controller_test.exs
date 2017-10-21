@@ -51,6 +51,8 @@ defmodule TicTacToeWeb.SessionControllerTest do
     end
 
     test "should log the user out", %{conn: conn} do
+      user = insert(:user)
+      conn = post(conn, session_path(conn, :create), valid_session_params(user))
       conn = delete(conn, session_path(conn, :delete))
       assert Guardian.Plug.current_resource(conn) == nil
     end

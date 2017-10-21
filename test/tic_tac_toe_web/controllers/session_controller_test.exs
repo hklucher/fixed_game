@@ -45,9 +45,9 @@ defmodule TicTacToeWeb.SessionControllerTest do
       assert flash["info"] == "Successfully logged out."
     end
 
-    test "should redirect to root path", %{conn: conn} do
+    test "should redirect to new session path", %{conn: conn} do
       conn = delete(conn, session_path(conn, :delete))
-      assert redirected_to(conn, 302) =~ "/"
+      assert redirected_to(conn, 302) =~ "/sessions/new"
     end
 
     test "should log the user out", %{conn: conn} do

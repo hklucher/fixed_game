@@ -21,6 +21,6 @@ defmodule TicTacToeWeb.SessionController do
     conn
     |> Guardian.Plug.sign_out
     |> put_flash(:info, "Successfully logged out.")
-    |> redirect(to: "/")
+    |> redirect(to: session_path(conn, :new))
   end
 end

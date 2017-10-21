@@ -19,19 +19,18 @@
         <p><%= "Logged in as #{Guardian.Plug.current_resource(@conn).username}" %></p>
         <p><%= link("Log Out", to: session_path(@conn, :delete), method: :delete, class: "nav-link") %></p>
       <% else %>
-        <%= link("Sign Up", to: user_path(@conn, :new), class: "nav-link login-link") %>
+        <%= link("Sign Up", to: session_path(@conn, :new), class: "nav-link login-link") %>
         <%= link("Log In", to: session_path(@conn, :new), class: "nav-link login-link") %>
       <% end %>
     </header>
     <div class="container">
-
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+      <div id="alert-info"/>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
 
       <main role="main">
         <%= render @view_module, @view_template, assigns %>
       </main>
-
     </div> <!-- /container -->
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>

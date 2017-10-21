@@ -23,12 +23,12 @@ import socket from "./socket"
 import React from "react"
 import { render } from "react-dom"
 import Board from "./Components/Board.js"
+import AlertInfo from "./Utilities/AlertInfo.js"
 
-import $ from "jquery";
-
-$('.alert').delay(10000).fadeOut();
-
-render(
-  <Board/>,
-  document.getElementById("new-game")
-)
+// TODO: Move this to new game view
+if (document.getElementById("new-game")) {
+  render(
+    <Board/>,
+    document.getElementById("new-game")
+  )
+}

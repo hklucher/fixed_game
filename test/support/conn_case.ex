@@ -20,6 +20,7 @@ defmodule TicTacToeWeb.ConnCase do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
       import TicTacToeWeb.Router.Helpers
+      import TicTacToe.Factory
 
       # The default endpoint for testing
       @endpoint TicTacToeWeb.Endpoint

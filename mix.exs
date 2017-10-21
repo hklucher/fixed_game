@@ -45,7 +45,8 @@ defmodule TicTacToe.Mixfile do
       {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
       {:guardian, "~> 0.14.5"},
       {:comeonin, "~> 4.0"},
-      {:bcrypt_elixir, "~> 1.0"}
+      {:bcrypt_elixir, "~> 1.0"},
+      {:ex_machina, "~> 2.1", only: :test}
     ]
   end
 

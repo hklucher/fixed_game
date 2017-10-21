@@ -25,7 +25,11 @@ defmodule TicTacToeWeb.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", GameController, :new
-    resources "/sessions", SessionController, only: [:new, :create, :delete]
+    resources "/sessions", SessionController, only: [:new, :create]
+
+    # Don't autogenerate this route from Phoenix because it will assume we need an :id param.
+    delete "/sessions", SessionController, :delete
+
     resources "/users", UserController, only: [:new, :create]
     resources "/games", GameController, only: [:new]
   end

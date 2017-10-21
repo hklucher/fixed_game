@@ -9,6 +9,7 @@
 
     <title>Fixed Game</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <link href="https://fonts.googleapis.com/css?family=Raleway|Roboto" rel="stylesheet">
   </head>
 
   <body>
@@ -18,6 +19,7 @@
         <p><%= "Logged in as #{Guardian.Plug.current_resource(@conn).username}" %></p>
         <p><%= link("Log Out", to: session_path(@conn, :delete), method: :delete, class: "nav-link") %></p>
       <% else %>
+        <%= link("Sign Up", to: user_path(@conn, :new), class: "nav-link login-link") %>
         <%= link("Log In", to: session_path(@conn, :new), class: "nav-link login-link") %>
       <% end %>
     </header>

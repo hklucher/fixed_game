@@ -1,5 +1,5 @@
 .form-container
-  %h1 Sign Up
+  %h2 Sign Up
 
   = form_for @conn, user_path(@conn, :create), [as: :user], fn f ->
     .form-group
@@ -9,7 +9,7 @@
     .form-group
       .row
         .col-sm-3
-          = submit "Sign In", class: "btn btn-primary"
+          = submit "Sign In", class: "btn form-submit"
         .col-sm-9
           %p Already have an account? 
             = link("Sign In!", to: session_path(@conn, :new))

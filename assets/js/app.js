@@ -24,6 +24,10 @@ import React from "react"
 import { render } from "react-dom"
 import Board from "./Components/Board.js"
 
+import $ from "jquery";
+
+$('.alert').delay(10000).fadeOut();
+
 render(
   <Board/>,
   document.getElementById("new-game")

@@ -1,0 +1,36 @@
+header {
+  align-items: center;
+  background-color: #00bd9d;
+  border-radius: 6px;
+  box-shadow: 2px 3px #f0f5f5;
+  display: flex !important;
+  height: 60px;
+  margin: 0 auto;
+  width: 95%;
+}
+
+.nav-logo {
+  border-right: 1px solid #fffbfa;
+  color: #fffbfa;
+  margin-left: 15px;
+  padding-right: 13px;
+}
+
+.nav-link {
+  color: #FFFBFA;
+  font-size: 15px;
+}
+
+.nav-link:hover {
+  color: #54DEFD;
+  text-decoration: none;
+}
+
+.nav-link:visited {
+  color: #FFFBFA;
+  text-decoration: none;
+}
+
+.login-link {
+  margin-left: 1em;
+}

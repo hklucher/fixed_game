@@ -11,7 +11,7 @@ defmodule TicTacToeWeb.SessionController do
     case TicTacToeWeb.Auth.login_by_username_and_pass(conn, user, password, repo: Repo) do
       {:ok, conn} ->
         logged_in_user = Guardian.Plug.current_resource(conn)
-        conn |> put_flash(:info, "Logged In") |> redirect(to: "/")
+        conn |> put_flash(:info, "Logged In as #{logged_in_user.username}") |> redirect(to: "/")
       {:error, _reason, conn} -> 
         conn |> put_flash(:error, "Wrong username/password") |> render("new.html")
     end

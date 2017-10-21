@@ -7,20 +7,21 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Hello TicTacToe!</title>
+    <title>Fixed Game</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
   <body>
+    <header class="header">
+      <h4 class="nav-logo">Fixed Game</h4>
+      <%= if Guardian.Plug.current_resource(@conn) do %>
+        <p><%= "Logged in as #{Guardian.Plug.current_resource(@conn).username}" %></p>
+        <p><%= link("Log Out", to: session_path(@conn, :delete), method: :delete, class: "nav-link") %></p>
+      <% else %>
+        <%= link("Log In", to: session_path(@conn, :new), class: "nav-link login-link") %>
+      <% end %>
+    </header>
     <div class="container">
-      <header class="header">
-        <%= if Guardian.Plug.current_resource(@conn) do %>
-          <p><%= "Logged in as #{Guardian.Plug.current_resource(@conn).username}" %></p>
-          <p><%= link("Log Out", to: session_path(@conn, :delete), method: :delete) %></p>
-        <% else %>
-          <%= link("Log In", to: session_path(@conn, :new)) %>
-        <% end %>
-      </header>
 
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>

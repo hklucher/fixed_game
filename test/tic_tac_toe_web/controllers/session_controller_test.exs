@@ -14,7 +14,7 @@ defmodule TicTacToeWeb.SessionControllerTest do
       user = insert(:user)
       conn = post(conn, session_path(conn, :create), valid_session_params(user))
       flash = get_flash(conn)
-      assert flash["info"] == "Logged In"
+      assert flash["info"] =~ "Logged In"
     end
 
     test "should redirect the user", %{conn: conn} do

@@ -1,5 +1,3 @@
-require IEx
-
 defmodule TicTacToeWeb.GameChannel do
   use Phoenix.Channel
   alias TicTacToe.Presence
@@ -11,7 +9,7 @@ defmodule TicTacToeWeb.GameChannel do
 
   def handle_in("move", updated_board, socket) do
     broadcast!(socket, "move", updated_board)
-    {:noreply, socket}
+    {:reply, socket}
   end
 
   def handle_in("get_marker", _params, socket) do

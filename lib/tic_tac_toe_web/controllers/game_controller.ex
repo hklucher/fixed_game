@@ -1,18 +1,25 @@
 defmodule TicTacToeWeb.GameController do
   use TicTacToeWeb, :controller
 
-  alias TicTacToe.Player.User
+  alias TicTacToe.Playable.Game
+  alias TicTacToe.Repo
+
+  def show(conn, %{"id" => id}) do
+    render(conn, "show.html")
+  end
 
   def new(conn, _params) do
-    case Guardian.Plug.current_resource(conn) do
-      %User{} ->
-        conn 
-        |> assign(:user_id, Guardian.Plug.current_resource(conn).id)
-        |> render("new.html")
+    render(conn, "new.html", changeset: Game.changeset(%Game{}))
+  end
+
+  def create(conn, _params) do
+    changeset = Game.changeset(%Game{board: %{}})
+
+    case Repo.insert(changeset) do
+      {:ok, changeset} ->
+        conn |> redirect(to: game_path(conn, :show, changeset.id))
       _ ->
-        conn
-        |> put_flash(:error, "You need to login to do that!")
-        |> redirect(to: session_path(conn, :new))
+        render(conn, "new.html")
     end
   end
 end

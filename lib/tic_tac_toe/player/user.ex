@@ -2,12 +2,15 @@ defmodule TicTacToe.Player.User do
   use Ecto.Schema
   import Ecto.Changeset
   alias TicTacToe.Player.User
+  alias TicTacToe.Playable.Game
 
 
   schema "users" do
     field :username, :string
     field :password_hash, :string
     field :password, :string
+
+    many_to_many :games, Game, join_through: "user_games"
 
     timestamps()
   end
@@ -21,8 +24,8 @@ defmodule TicTacToe.Player.User do
   end
 
   @doc """
-  Used when creating a new user, will use bcrypt to
-  hash password.
+    Used when creating a new user, will use bcrypt to
+    hash password.
   """
   def registration_changeset(model, params) do
     model

@@ -12,6 +12,11 @@ defmodule TicTacToeWeb.Router do
   end
 
   pipeline :browser_auth do
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :fetch_flash
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
     plug Guardian.Plug.VerifySession
     plug Guardian.Plug.EnsureAuthenticated, handler: TicTacToe.Token
     plug Guardian.Plug.LoadResource
@@ -31,7 +36,11 @@ defmodule TicTacToeWeb.Router do
     delete "/sessions", SessionController, :delete
 
     resources "/users", UserController, only: [:new, :create]
-    resources "/games", GameController, only: [:new]
+  end
+
+  scope "/", TicTacToeWeb do
+    pipe_through :browser_auth
+    resources "/games", GameController, only: [:new, :create, :show]
   end
 
   # Other scopes may use custom stacks.

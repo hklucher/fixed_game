@@ -29,3 +29,7 @@ config :guardian, Guardian,
   error_handler: TicTacToe.AuthErrorHandler,
   serializer: TicTacToe.GuardianSerializer
 
+# Configure hound for integration tests
+config :hound, driver: "phantomjs"
+
+

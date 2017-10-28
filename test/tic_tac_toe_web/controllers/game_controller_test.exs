@@ -27,4 +27,13 @@ defmodule TicTacToeWeb.GameControllerTest do
       assert flash["error"] == "You need to login to do that!"
     end
   end
+
+  describe "creating a game" do
+    test "should redirect", %{conn: conn} do
+      user = insert(:user)
+      conn = post(conn, session_path(conn, :create), valid_session_params(user))
+      conn = post(conn, game_path(conn, :create), game: %{})
+      assert conn.status == 302
+    end
+  end
 end

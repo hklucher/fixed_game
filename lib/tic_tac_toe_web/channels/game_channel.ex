@@ -1,3 +1,5 @@
+require IEx;
+
 defmodule TicTacToeWeb.GameChannel do
   use Phoenix.Channel
   alias TicTacToe.Presence

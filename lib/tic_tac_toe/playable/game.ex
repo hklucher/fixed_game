@@ -8,7 +8,7 @@ defmodule TicTacToe.Playable.Game do
   schema "games" do
     field :board, :map
 
-    many_to_many :users, User, join_through: "user_games"
+    many_to_many :users, User, join_through: TicTacToe.UserGames
 
     timestamps()
   end

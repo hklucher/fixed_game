@@ -10,7 +10,7 @@ defmodule TicTacToe.Player.User do
     field :password_hash, :string
     field :password, :string
 
-    many_to_many :games, Game, join_through: "user_games"
+    many_to_many :games, Game, join_through: TicTacToe.UserGames
 
     timestamps()
   end

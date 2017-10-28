@@ -8,4 +8,8 @@ defmodule TicTacToe.Factory do
       password_hash: Comeonin.Bcrypt.hashpwsalt("password")
     }
   end
+
+  def game_factory do
+    %TicTacToe.Playable.Game{board: %{}}
+  end
 end

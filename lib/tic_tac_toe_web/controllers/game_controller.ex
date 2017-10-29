@@ -1,7 +1,6 @@
 defmodule TicTacToeWeb.GameController do
   use TicTacToeWeb, :controller
 
-  import Ecto.Query
   import Bodyguard
 
   alias TicTacToe.Playable.Game

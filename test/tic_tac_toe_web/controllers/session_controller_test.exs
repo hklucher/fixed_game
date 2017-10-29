@@ -26,7 +26,7 @@ defmodule TicTacToeWeb.SessionControllerTest do
     test "should set the user as the current resource", %{conn: conn} do
       user = insert(:user)
       conn = post(conn, session_path(conn, :create), valid_session_params(user))
-      assert Guardian.Plug.current_resource(conn) == user
+      assert Guardian.Plug.current_resource(conn).id == user.id
     end
   end
 

@@ -2,9 +2,7 @@ defmodule TicTacToe.Playable.Game do
   use Ecto.Schema
 
   import Ecto.Changeset
-  import Ecto.Query
 
-  alias TicTacToe.Repo
   alias TicTacToe.Playable.Game
   alias TicTacToe.Player.User
 

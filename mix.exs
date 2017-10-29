@@ -47,7 +47,8 @@ defmodule TicTacToe.Mixfile do
       {:comeonin, "~> 4.0"},
       {:bcrypt_elixir, "~> 1.0"},
       {:ex_machina, "~> 2.1", only: :test},
-      {:hound, "~> 1.0", only: :test}
+      {:hound, "~> 1.0", only: :test},
+      {:bodyguard, "~> 2.1"}
     ]
   end
 

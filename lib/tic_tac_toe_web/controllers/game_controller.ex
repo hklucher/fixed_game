@@ -1,6 +1,9 @@
 defmodule TicTacToeWeb.GameController do
   use TicTacToeWeb, :controller
 
+  import Ecto.Query
+  import Bodyguard
+
   alias TicTacToe.Playable.Game
   alias TicTacToe.{UserGames, Repo}
 
@@ -9,7 +12,17 @@ defmodule TicTacToeWeb.GameController do
   Will find the Game given by the :id param. If not found, will return a 404 status.
   """
   def show(conn, %{"id" => id}) do
-    render(conn, "show.html")
+    user = Guardian.Plug.current_resource(conn)
+    game = Repo.get(Game, id)
+
+    case Bodyguard.permit(Game, :view_game, user, game) do
+      :ok ->
+        render(conn, "show.html")
+      {:error, reason} ->
+        conn |> put_flash(:info, reason) |> redirect(to: game_path(conn, :new))
+      _ ->
+        conn |> redirect(to: game_path(conn, :new))
+    end
   end
 
   @doc """
@@ -28,6 +41,7 @@ defmodule TicTacToeWeb.GameController do
   def create(conn, _params) do
     changeset = Game.changeset(%Game{board: %{}})
     user = Guardian.Plug.current_resource(conn)
+
 
     case Repo.insert(changeset) do
       {:ok, changeset} ->

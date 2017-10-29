@@ -22,6 +22,7 @@ defmodule TicTacToe.DataCase do
       import Ecto.Changeset
       import Ecto.Query
       import TicTacToe.DataCase
+      import TicTacToe.Factory
     end
   end
 

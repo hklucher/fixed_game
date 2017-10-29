@@ -19,6 +19,7 @@ defmodule TicTacToeWeb.ChannelCase do
     quote do
       # Import conveniences for testing with channels
       use Phoenix.ChannelTest
+      import TicTacToe.Factory
 
       # The default endpoint for testing
       @endpoint TicTacToeWeb.Endpoint

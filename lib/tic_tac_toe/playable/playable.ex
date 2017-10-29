@@ -7,6 +7,7 @@ defmodule TicTacToe.Playable do
   alias TicTacToe.Repo
 
   alias TicTacToe.Playable.Game
+  alias TicTacToe.Player.User
 
   @doc """
   Returns the list of games.
@@ -100,5 +101,17 @@ defmodule TicTacToe.Playable do
   """
   def change_game(%Game{} = game) do
     Game.changeset(game, %{})
+  end
+
+  @doc """
+  Returns a List of all `user_games` that belong to the given user
+  and game.
+  """
+  def user_games_by_user_and_game(%User{} = user, %Game{} = game) do
+    Repo.all(
+      from ug in TicTacToe.UserGames,
+      where: ug.user_id == ^user.id,
+      where: ug.game_id == ^game.id
+    )
   end
 end

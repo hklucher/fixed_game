@@ -5,7 +5,12 @@ defmodule TicTacToe.Factory do
     %TicTacToe.Player.User{
       username: "Johnny Ramone",
       password: "password",
-      password_hash: Comeonin.Bcrypt.hashpwsalt("password")
+      password_hash: Comeonin.Bcrypt.hashpwsalt("password"),
+      games: [build(:game)]
     }
+  end
+
+  def game_factory do
+    %TicTacToe.Playable.Game{board: %{}}
   end
 end

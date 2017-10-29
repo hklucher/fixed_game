@@ -2,6 +2,7 @@ defmodule TicTacToe.PlayableTest do
   use TicTacToe.DataCase
 
   alias TicTacToe.Playable
+  alias TicTacToe.UserGames
 
   describe "games" do
     alias TicTacToe.Playable.Game
@@ -60,6 +61,15 @@ defmodule TicTacToe.PlayableTest do
     test "change_game/1 returns a game changeset" do
       game = game_fixture()
       assert %Ecto.Changeset{} = Playable.change_game(game)
+    end
+
+    test "user_games_by_user_and_game/2 should return user_games matching the user and game" do
+      game = insert(:game)
+      user = insert(:user)
+      {:ok, user_game} = Repo.insert(UserGames.changeset(%UserGames{}, %{user_id: user.id, game_id: game.id}))
+      results = Playable.user_games_by_user_and_game(user, game)
+
+      assert Enum.member?(results, user_game)
     end
   end
 end

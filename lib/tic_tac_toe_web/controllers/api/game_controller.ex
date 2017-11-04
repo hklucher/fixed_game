@@ -5,6 +5,6 @@ defmodule TicTacToeWeb.Api.GameController do
 
   def show(conn, %{"id" => id}) do
     game = TicTacToe.Playable.get_game!(id)
-    render conn, "show.json", %{game: game}
+    render(conn, "game.json", %{game: game})
   end
 end

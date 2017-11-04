@@ -28,6 +28,16 @@ export class Board extends Component {
     };
   }
 
+  componentWillMount() {
+    fetch(`/api/games/${GAME_ID}`, () => {
+      method: "GET"
+    }).then(response => {
+      return response.json()
+    }).then(json => {
+      this.setState({ board: json.board })
+    })
+  }
+
   componentDidMount() {
     let socket = new Socket("/socket", {params: {token: window.userToken}})
 

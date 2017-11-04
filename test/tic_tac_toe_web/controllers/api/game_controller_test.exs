@@ -24,7 +24,7 @@ defmodule Api.TicTacToeWeb.GameControllerTest do
     test "should include the id returned from the game", %{conn: conn} do
       game = insert(:game)
       conn = get(conn, api_game_path(conn, :show, game.id))
-      assert json_response(conn, 200) == %{"id" => game.id}
+      assert json_response(conn, 200)["id"] == game.id
     end
 
     test "should include the board in the response", %{conn: conn} do

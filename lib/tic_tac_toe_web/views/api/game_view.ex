@@ -11,7 +11,6 @@ defmodule TicTacToeWeb.Api.GameView do
   end
 
   def render("game.json", %{game: game}) do
-    %{id: game.id,
-      board: game.board}
+    %{id: game.id, board: game.board}
   end
 end

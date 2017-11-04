@@ -16,9 +16,9 @@ defmodule TicTacToeWeb.GameController do
 
     case Bodyguard.permit(Game, :view_game, user, game) do
       :ok ->
-        render(conn, "show.html")
+        conn |> assign(:game_id, game.id) |> render("show.html")
       {:error, reason} ->
-        conn |> put_flash(:info, reason) |> redirect(to: game_path(conn, :new))
+        conn |>  put_flash(:info, reason) |> redirect(to: game_path(conn, :new))
       _ ->
         conn |> redirect(to: game_path(conn, :new))
     end

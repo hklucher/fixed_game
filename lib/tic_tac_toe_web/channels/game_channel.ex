@@ -10,6 +10,9 @@ defmodule TicTacToeWeb.GameChannel do
   def handle_in("move", %{"board" => board, "game_id" => game_id}, socket) do
     broadcast!(socket, "move", board)
     game = TicTacToe.Playable.get_game!(game_id)
+    # TODO: Extract to module, handle errors?
+    {:ok, _} = TicTacToe.Playable.update_game(game, %{board: board})
+
     {:noreply, socket}
   end
 

@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import Spot from "./Spot"
 import Modal from "./Shared/Modal"
-import { ToastContainer } from "react-toastr";
+import Loader from "./Shared/Loader"
 import { Socket } from "phoenix"
 
 export class Board extends Component {
@@ -24,7 +24,8 @@ export class Board extends Component {
       },
 
       playersTurn: true,
-      showTurnWarning: false
+      showTurnWarning: false,
+      loading: true,
     };
   }
 
@@ -34,7 +35,7 @@ export class Board extends Component {
     }).then(response => {
       return response.json()
     }).then(json => {
-      this.setState({ board: json.board })
+      this.setState({ board: json.board, loading: false })
     })
   }
 
@@ -101,7 +102,8 @@ export class Board extends Component {
           It's not your turn!
         </Modal>
         
-        {this.renderGrid()}
+        {this.state.loading && <Loader />}
+        {!this.state.loading && this.renderGrid()}
       </div>
     )
   }

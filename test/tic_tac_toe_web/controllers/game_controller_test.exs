@@ -7,6 +7,15 @@ defmodule TicTacToeWeb.GameControllerTest do
     %{"session" => %{"username" => user.username, "password" => user.password}}
   end
 
+  describe "GET /games" do
+    test "should render the template" do
+      user = insert(:user)
+      conn = post(conn, session_path(conn, :create), valid_session_params(user))
+      conn = get(conn, game_path(conn, :index))
+      assert html_response(conn, 200) =~ "Available Games"
+    end
+  end
+
   describe "new game with a logged in user" do
     test "should render the template", %{conn: conn} do
       user = insert(:user)

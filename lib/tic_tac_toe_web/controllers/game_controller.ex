@@ -7,6 +7,16 @@ defmodule TicTacToeWeb.GameController do
   alias TicTacToe.{UserGames, Repo}
 
   @doc """
+  GET /games
+  """
+  def index(conn, _params) do
+    # TODO: Get all games that have only one user. Order by created at.
+    # Paginate.
+    games = Repo.all(Game)
+    conn |> assign(:games, games) |> render("index.html")
+  end
+
+  @doc """
   GET /games/:id
   Will find the Game given by the :id param. If not found, will return a 404 status.
   """

@@ -1,5 +1,7 @@
-import React, { Component } from "react";
-import Spot from "./Spot";
+import React, { Component } from "react"
+import Spot from "./Spot"
+import Modal from "./Shared/Modal"
+import { ToastContainer } from "react-toastr";
 import { Socket } from "phoenix"
 
 export class Board extends Component {
@@ -19,7 +21,10 @@ export class Board extends Component {
         "6": "",
         "7": "",
         "8": ""
-      }
+      },
+
+      playersTurn: false,
+      showTurnWarning: false
     };
   }
 
@@ -43,14 +48,22 @@ export class Board extends Component {
     this.channel.on("get_marker", payload => {
       if (!this.marker) {
         this.marker = payload.marker
+
+        if (payload.marker === "X") {
+          this.setState({ playersTurn: false })
+        }
       }
     })
   }
 
   handleMove(index) {
-    this.setState({ board: { ...this.state.board, [index]: this.marker }}, () => {
-      this.channel.push("move", this.state)
-    });
+    if (this.state.playersTurn) {
+      this.setState({ board: { ...this.state.board, [index]: this.marker }}, () => {
+        this.channel.push("move", this.state)
+      });
+    } else {
+      this.setState({ showTurnWarning: true })
+    }
   }
 
   renderGrid() {
@@ -72,6 +85,10 @@ export class Board extends Component {
   render() {
     return (
       <div className="board container">
+        <Modal hidden={!this.state.showTurnWarning} timeOut={5000}>
+          It's not your turn!
+        </Modal>
+        
         {this.renderGrid()}
       </div>
     )

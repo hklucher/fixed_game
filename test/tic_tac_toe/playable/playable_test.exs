@@ -25,6 +25,24 @@ defmodule TicTacToe.PlayableTest do
       assert Playable.list_games() == [game]
     end
 
+    test "active_games/0 includes games with only one user" do
+      user = insert(:user)
+      game = insert(:game)
+      {:ok, _} = Repo.insert(UserGames.changeset(%UserGames{}, %{user_id: user.id, game_id: game.id}))
+
+      assert Enum.member?(Playable.active_games(), game)
+    end
+
+    test "active_games/0 does not include games with two users" do
+      player_one = insert(:user)
+      player_two = insert(:user)
+      game = insert(:game)
+      {:ok, _} = Repo.insert(UserGames.changeset(%UserGames{}, %{user_id: player_one.id, game_id: game.id}))
+      {:ok, _} = Repo.insert(UserGames.changeset(%UserGames{}, %{user_id: player_two.id, game_id: game.id}))
+      
+      refute Enum.member?(Playable.active_games(), game)
+    end
+ 
     test "get_game!/1 returns the game with given id" do
       game = game_fixture()
       assert Playable.get_game!(game.id) == game

@@ -10,9 +10,8 @@ defmodule TicTacToeWeb.GameController do
   GET /games
   """
   def index(conn, _params) do
-    # TODO: Get all games that have only one user. Order by created at.
     # Paginate.
-    games = Repo.all(Game)
+    games = TicTacToe.Playable.active_games()
     conn |> assign(:games, games) |> render("index.html")
   end
 
@@ -50,7 +49,6 @@ defmodule TicTacToeWeb.GameController do
   def create(conn, _params) do
     changeset = Game.changeset(%Game{board: %{}})
     user = Guardian.Plug.current_resource(conn)
-
 
     case Repo.insert(changeset) do
       {:ok, changeset} ->

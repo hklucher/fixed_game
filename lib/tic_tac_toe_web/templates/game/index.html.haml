@@ -1,5 +1,10 @@
 %h2 Available Games
 
-= for game <- @games do
-  %p
-    = link("Game with User", to: game.id)
+.container
+  = for game <- @games do
+    .row
+      .col-sm-4
+        %p= link("Game with User", to: game.id)
+      .col-sm-4
+        %p= game.inserted_at
+

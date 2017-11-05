@@ -1,9 +1,8 @@
-require IEx
-
 defmodule TicTacToeWeb.GameController do
   use TicTacToeWeb, :controller
 
   import Bodyguard
+  import Ecto.Query
 
   alias TicTacToe.Playable.Game
   alias TicTacToe.{UserGames, Repo}
@@ -12,9 +11,11 @@ defmodule TicTacToeWeb.GameController do
   GET /games
   """
   def index(conn, params) do
-    page = Game |> Repo.paginate(params)
-    #games = TicTacToe.Playable.active_games()
-    render(conn, "index.html", games: page.entries, page: page)
+    # TODO: Figure out how to paginate only entries with only one player.
+    #page = Game |> preload(:users) |> Repo.paginate(params)
+    #render(conn, "index.html", games: page.entries, page: page)
+    games = TicTacToe.Playable.active_games()
+    render(conn, "index.html", games: games)
   end
 
   @doc """

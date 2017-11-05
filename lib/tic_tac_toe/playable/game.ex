@@ -8,6 +8,9 @@ defmodule TicTacToe.Playable.Game do
 
   @behaviour Bodyguard.Policy
 
+  @timestamps_opts [type: Timex.Ecto.DateTime,
+                    autogenerate: {Timex.Ecto.DateTime, :autogenerate, []}]
+
 
   schema "games" do
     field :board, :map

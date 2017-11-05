@@ -4,9 +4,7 @@
   = for game <- @games do
     .row
       .col-sm-4
-        %p= link("Game with User", to: game.id)
+        %p= link("Game with #{List.first(game.users).username}", to: game.id)
       .col-sm-4
-        %p= game.inserted_at
-
-= pagination_links(@page)
+        = TicTacToe.Playable.formatted_insertion_date(game)
 

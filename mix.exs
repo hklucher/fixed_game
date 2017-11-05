@@ -50,7 +50,9 @@ defmodule TicTacToe.Mixfile do
       {:hound, "~> 1.0", only: :test},
       {:bodyguard, "~> 2.1"},
       {:scrivener_ecto, "~> 1.0"},
-      {:scrivener_html, "~> 1.1"}
+      {:scrivener_html, "~> 1.1"},
+      {:timex, "~> 3.1"},
+      {:timex_ecto, "~> 3.0"}
     ]
   end
 

@@ -1,5 +1,6 @@
 defmodule TicTacToeWeb.GameView do
   use TicTacToeWeb, :view
+  import Scrivener.HTML
   alias TicTacToeWeb.GameView
 
   def render("index.json", %{games: games}) do

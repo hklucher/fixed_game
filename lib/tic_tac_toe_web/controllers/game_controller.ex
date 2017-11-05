@@ -1,3 +1,5 @@
+require IEx
+
 defmodule TicTacToeWeb.GameController do
   use TicTacToeWeb, :controller
 
@@ -9,10 +11,10 @@ defmodule TicTacToeWeb.GameController do
   @doc """
   GET /games
   """
-  def index(conn, _params) do
-    # Paginate.
-    games = TicTacToe.Playable.active_games()
-    conn |> assign(:games, games) |> render("index.html")
+  def index(conn, params) do
+    page = Game |> Repo.paginate(params)
+    #games = TicTacToe.Playable.active_games()
+    render(conn, "index.html", games: page.entries, page: page)
   end
 
   @doc """

@@ -33,20 +33,6 @@ defmodule TicTacToe.Playable do
     |> Enum.filter(fn(game) -> length(game.users) == 1 end)
   end
 
-  # TODO: Move this to some other module, it's not really business logic.
-  @doc """
-  Returns a formatted date string represented as MM-DD-YYYY.
-  Returns a filler upon error.
-  """
-  def formatted_insertion_date(%Game{} = game) do
-    case Timex.format(game.inserted_at, "{0M}-{0D}-{YYYY}") do
-      {:ok, date_string} ->
-        date_string
-      {:error, _reason} ->
-        "---"
-    end
-  end
-
   @doc """
   Gets a single game.
 

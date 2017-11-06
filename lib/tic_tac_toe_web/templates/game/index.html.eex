@@ -1,0 +1,19 @@
+<h2>Available Games</h2>
+
+<div class="container">
+  <%= for game <- @games do %>
+    <div class="row">
+      <div class="col-sm-4">
+        <p>
+          <%= link("Game with #{List.first(game.users).username}", to: game.id) %>
+        </p>
+      </div>
+
+      <div class="col-sm-4">
+        <p class="bold">
+          <%= "#{formatted_insertion_date(game)} at #{formatted_insertion_time(game)}"  %>
+        </p>
+      </div>
+    </div>
+  <% end %>
+</div>

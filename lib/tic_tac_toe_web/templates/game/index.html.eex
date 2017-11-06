@@ -1,8 +1,17 @@
 <h2>Available Games</h2>
 
 <div class="container">
+  <div class="row list-header">
+    <div class="col-sm-4">
+      <h4>Game</h4>
+    </div> 
+
+    <div class="col-sm-4">
+      <h4>Last Active</h4> 
+    </div>
+  </div>
   <%= for game <- @games do %>
-    <div class="row">
+    <div class="row list-item">
       <div class="col-sm-4">
         <p>
           <%= link("Game with #{List.first(game.users).username}", to: game.id) %>

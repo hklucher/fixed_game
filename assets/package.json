@@ -4,7 +4,7 @@
   "scripts": {
     "deploy": "brunch build --production",
     "watch": "brunch watch --stdin",
-    "test": "./node_modules/mocha/bin/mocha $(find js/__test__/) --require babel-register"
+    "test": "./node_modules/mocha/bin/mocha $(find js/__test__/) --require babel-register --require js/__test__/testHelper.js"
   },
   "dependencies": {
     "phoenix": "file:../deps/phoenix",
@@ -12,8 +12,12 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.6",
+    "react-test-renderer": "^16.1.0",
     "react-toastr": "^3.0.0",
     "redux": "^3.7.2"
+  },
+  "peerDependencies": {
+    "react-test-renderer": "^16.1.0"
   },
   "devDependencies": {
     "babel": "^6.23.0",
@@ -26,6 +30,7 @@
     "chai": "^4.1.2",
     "clean-css-brunch": "2.10.0",
     "enzyme": "^3.1.1",
+    "enzyme-adapter-react-15": "^1.0.5",
     "enzyme-adapter-react-16": "^1.0.4",
     "eslint": "^4.11.0",
     "eslint-config-airbnb": "^16.1.0",

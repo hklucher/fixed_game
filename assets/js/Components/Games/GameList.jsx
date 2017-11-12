@@ -10,9 +10,21 @@ export default class GameList extends Component {
     };
   }
 
-  render() {
-    const  { games } = this.state;
+  componentWillMount() {
+    window.fetch('/api/games').then(response =>
+      response.json()).then((json) => {
+      this.setState({ games: json.games });
+    });
+  }
 
-    return <div>Hi</div>
+
+  render() {
+    const { games } = this.state;
+
+    return (
+      <div className="container">
+        {games.map(game => <GameRow key={game.id} game={game} />)}
+      </div>
+    );
   }
 }

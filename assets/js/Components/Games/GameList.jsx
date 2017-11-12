@@ -13,10 +13,6 @@ export default class GameList extends Component {
   render() {
     const  { games } = this.state;
 
-    return (
-      games.map((game) => {
-        return <GameRow game={game} />;
-      })
-    );
+    return <div>Hi</div>
   }
 }

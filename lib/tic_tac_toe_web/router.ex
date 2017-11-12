@@ -47,6 +47,6 @@ defmodule TicTacToeWeb.Router do
    scope "/api", TicTacToeWeb, as: :api do
      pipe_through :api
 
-     resources "/games", Api.GameController, only: [:show]
+     resources "/games", Api.GameController, only: [:index, :show]
    end
 end

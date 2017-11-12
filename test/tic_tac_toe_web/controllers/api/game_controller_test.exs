@@ -14,6 +14,18 @@ defmodule Api.TicTacToeWeb.GameControllerTest do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
+  describe "GET index" do
+    test "should respond with a 200 status", %{conn: conn} do
+      conn = get(conn, api_game_path(conn, :index))
+      assert conn.status == 200
+    end
+
+    test "should return a list of games in json format", %{conn: conn} do
+      conn = get(conn, api_game_path(conn, :index))
+      assert is_list(json_response(conn, 200)["games"] )
+    end
+  end
+
   describe "GET show" do
     test "should respond with a 200 status", %{conn: conn} do
       game = insert(:game)

@@ -3,7 +3,7 @@ defmodule TicTacToeWeb.Api.GameView do
   alias TicTacToeWeb.GameView
 
   def render("index.json", %{games: games}) do
-    %{data: render_many(games, GameView, "game.json")}
+    %{games: render_many(games, GameView, "game.json")}
   end
 
   def render("show.json", %{game: game}) do

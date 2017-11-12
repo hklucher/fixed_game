@@ -13,8 +13,11 @@ defmodule TicTacToeWeb.GameView do
   end
 
   def render("game.json", %{game: game}) do
-    %{id: game.id,
-      board: game.board}
+    %{
+      id: game.id,
+      board: game.board,
+      title: TicTacToe.Playable.game_title(game)
+    }
   end
 
   @doc """

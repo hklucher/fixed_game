@@ -33,6 +33,23 @@ defmodule TicTacToe.PlayableTest do
       assert Enum.member?(Playable.active_games(), game)
     end
 
+    test "game_title/1 when game has at least one associated user it should use that users username" do
+      game = insert(:game)
+      user = insert(:user)
+      {:ok, _} = Repo.insert(UserGames.changeset(%UserGames{}, %{user_id: user.id, game_id: game.id}))
+
+      game = Repo.one(from g in Game, where: g.id == ^game.id, preload: :users)
+
+      assert Playable.game_title(game) == "Game with #{user.username}"
+    end
+
+    test "game_title/1 when no users are associated with that game should return an error tuple" do
+      game = insert(:game)
+      game = Repo.one(from g in Game, where: g.id == ^game.id, preload: :users)
+
+      assert {:error, _} = Playable.game_title(game)
+    end
+
     test "active_games/0 does not include games with two users" do
       player_one = insert(:user)
       player_two = insert(:user)

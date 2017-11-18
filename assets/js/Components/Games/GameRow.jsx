@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import GameRowConfirmation from './GameRowConfirmation';
+import Transition from 'react-transition-group/Transition'
 
 export default class GameRow extends Component {
   constructor(props) {
@@ -17,7 +18,7 @@ export default class GameRow extends Component {
 
   render() {
     return (
-      <div>
+      <div className="container">
         <div className="row list-item" onClick={::this.toggleExtension}>
           <div className="col-sm-4">
             {this.props.game.title}
@@ -27,7 +28,7 @@ export default class GameRow extends Component {
             Last active!
           </div>
         </div>
-        
+
         <GameRowConfirmation visible={this.state.showConfirmationExtension} />
       </div>
     );

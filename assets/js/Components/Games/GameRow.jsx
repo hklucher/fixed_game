@@ -17,14 +17,22 @@ export default class GameRow extends Component {
   }
 
   goToGame() {
-    // TODO: Replace with real API call.
-    window.fetch('/api/games/:id/users', {
-      method: 'PUT',
+    const { game } = this.props;
+
+    window.fetch('/api/user_games', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({
-        user_ids: [1, 2]
+        user_id: USER_ID,
+        game_id: game.id,
       })
-    })
-    console.log('I will go to a game');
+      }).then(response => {
+        if (response.ok) {
+          window.location = `/games/${game.id}`
+        }
+    });
   }
 
   render() {
@@ -42,7 +50,7 @@ export default class GameRow extends Component {
 
         <GameRowConfirmation
           cancel={::this.toggleExtension}
-          confirm={this.goToGame}
+          confirm={::this.goToGame}
           visible={this.state.showConfirmationExtension}
         />
       </div>

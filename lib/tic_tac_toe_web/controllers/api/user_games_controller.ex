@@ -6,7 +6,7 @@ defmodule TicTacToeWeb.Api.UserGamesController do
 
   @doc """
   POST /api/user_games
-  Creates a new UserGames record.
+  Creates a new UserGames record. Returns id, game_id, and user_id in a JSON response.
   """
   def create(conn, %{"user_id" => user_id, "game_id" => game_id}) do
     changeset = UserGames.changeset(%UserGames{}, %{game_id: game_id, user_id: user_id})

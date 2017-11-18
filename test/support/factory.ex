@@ -1,9 +1,9 @@
 defmodule TicTacToe.Factory do
   use ExMachina.Ecto, repo: TicTacToe.Repo
-  
+
   def user_factory do
     %TicTacToe.Player.User{
-      username: "Johnny Ramone",
+      username: sequence("username"),
       password: "password",
       password_hash: Comeonin.Bcrypt.hashpwsalt("password"),
       games: [build(:game)]

@@ -40,12 +40,14 @@ defmodule TicTacToeWeb.Router do
 
   scope "/", TicTacToeWeb do
     pipe_through :browser_auth
-    resources "/games", GameController, only: [:new, :create, :show]
+    resources "/games", GameController, only: [:index, :new, :create, :show]
   end
 
   # Other scopes may use custom stacks.
-   scope "/api", TicTacToeWeb do
+   scope "/api", TicTacToeWeb, as: :api do
      pipe_through :api
-     resources "/games", Api.GameController, only: [:new]
+
+     resources "/games", Api.GameController, only: [:index, :show, :update]
+     resources "/user_games", Api.UserGamesController, only: [:create]
    end
 end

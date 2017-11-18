@@ -23,6 +23,30 @@ defmodule TicTacToe.Playable do
   end
 
   @doc """
+  Returns a list of games with only one player, ordered by inserted_at.
+  """
+  def active_games(limit \\ 100) do
+    query = from g in Game, preload: :users, limit: ^limit
+
+    query
+    |> Repo.all()
+    |> Enum.filter(fn(game) -> length(game.users) == 1 end)
+  end
+
+  @doc """
+  Returns a string as a title for the passed in game. Requires
+  that users are preloaded, and the game has at least one
+  associated user. If no users are present, will return {:error, reason}.
+  """
+  def game_title(%Game{} = game) do
+    first_player = List.first(game.users)
+    game_title_from_user(first_player)
+  end
+
+  defp game_title_from_user(%User{} = user), do: "Game with #{user.username}"
+  defp game_title_from_user(_), do: {:error, "no user"}
+
+  @doc """
   Gets a single game.
 
   Raises `Ecto.NoResultsError` if the Game does not exist.

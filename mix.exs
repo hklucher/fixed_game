@@ -20,7 +20,7 @@ defmodule TicTacToe.Mixfile do
   def application do
     [
       mod: {TicTacToe.Application, []},
-      extra_applications: [:logger, :runtime_tools],
+      extra_applications: [:logger, :runtime_tools, :scrivener_ecto],
     ]
   end
 
@@ -48,7 +48,11 @@ defmodule TicTacToe.Mixfile do
       {:bcrypt_elixir, "~> 1.0"},
       {:ex_machina, "~> 2.1", only: :test},
       {:hound, "~> 1.0", only: :test},
-      {:bodyguard, "~> 2.1"}
+      {:bodyguard, "~> 2.1"},
+      {:scrivener_ecto, "~> 1.0"},
+      {:scrivener_html, "~> 1.1"},
+      {:timex, "~> 3.1"},
+      {:timex_ecto, "~> 3.0"}
     ]
   end
 

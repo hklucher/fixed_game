@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import Spot from "./Spot"
 import Modal from "./Shared/Modal"
-import { ToastContainer } from "react-toastr";
+import Loader from "./Shared/Loader"
 import { Socket } from "phoenix"
 
 export class Board extends Component {
@@ -23,9 +23,20 @@ export class Board extends Component {
         "8": ""
       },
 
-      playersTurn: false,
-      showTurnWarning: false
+      playersTurn: true,
+      showTurnWarning: false,
+      loading: true,
     };
+  }
+
+  componentWillMount() {
+    fetch(`/api/games/${GAME_ID}`, () => {
+      method: "GET"
+    }).then(response => {
+      return response.json()
+    }).then(json => {
+      this.setState({ board: json.board, loading: false })
+    })
   }
 
   componentDidMount() {
@@ -40,7 +51,7 @@ export class Board extends Component {
       .receive("error", resp => { console.log("Unable to join", resp) })
 
     this.channel.on("move", payload => {
-      this.setState({ board: payload.board })
+      this.setState({ board: payload })
     })
 
     this.channel.push("get_marker", {})
@@ -49,9 +60,9 @@ export class Board extends Component {
       if (!this.marker) {
         this.marker = payload.marker
 
-        if (payload.marker === "X") {
-          this.setState({ playersTurn: false })
-        }
+        //if (payload.marker === "X") {
+          //this.setState({ playersTurn: false })
+        //}
       }
     })
   }
@@ -59,7 +70,8 @@ export class Board extends Component {
   handleMove(index) {
     if (this.state.playersTurn) {
       this.setState({ board: { ...this.state.board, [index]: this.marker }}, () => {
-        this.channel.push("move", this.state)
+
+        this.channel.push("move", { board: this.state.board, game_id: GAME_ID })
       });
     } else {
       this.setState({ showTurnWarning: true })
@@ -84,12 +96,14 @@ export class Board extends Component {
 
   render() {
     return (
+
       <div className="board container">
         <Modal hidden={!this.state.showTurnWarning} timeOut={5000}>
           It's not your turn!
         </Modal>
         
-        {this.renderGrid()}
+        {this.state.loading && <Loader />}
+        {!this.state.loading && this.renderGrid()}
       </div>
     )
   }

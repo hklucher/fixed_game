@@ -1,5 +1,3 @@
-require IEx;
-
 defmodule TicTacToeWeb.GameChannel do
   use Phoenix.Channel
   alias TicTacToe.Presence
@@ -9,9 +7,13 @@ defmodule TicTacToeWeb.GameChannel do
     {:ok, assign(socket, :user_id, payload["user_id"])}
   end
 
-  def handle_in("move", updated_board, socket) do
-    broadcast!(socket, "move", updated_board)
-    {:reply, socket}
+  def handle_in("move", %{"board" => board, "game_id" => game_id}, socket) do
+    broadcast!(socket, "move", board)
+    game = TicTacToe.Playable.get_game!(game_id)
+    # TODO: Extract to module, handle errors?
+    {:ok, _} = TicTacToe.Playable.update_game(game, %{board: board})
+
+    {:noreply, socket}
   end
 
   def handle_in("get_marker", _params, socket) do

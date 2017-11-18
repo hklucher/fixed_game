@@ -23,13 +23,21 @@ import socket from "./socket"
 import React from "react"
 import { render } from "react-dom"
 import Board from "./Components/Board.js"
+import GameList from "./Components/Games/GameList"
 import Alert from "./Utilities/Alert.js"
 
 // TODO: Move this to new game view
+// TODO: Implement react_phoenix to clean all this up.
 if (document.getElementById("new-game")) {
   render(
     <Board/>,
     document.getElementById("new-game")
+  )
+}
+
+if (document.getElementById("game-list")) {
+  render(
+    <GameList />, document.getElementById("game-list")
   )
 }
 

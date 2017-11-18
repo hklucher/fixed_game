@@ -2,9 +2,21 @@ defmodule TicTacToeWeb.GameController do
   use TicTacToeWeb, :controller
 
   import Bodyguard
+  import Ecto.Query
 
   alias TicTacToe.Playable.Game
   alias TicTacToe.{UserGames, Repo}
+
+  @doc """
+  GET /games
+  """
+  def index(conn, params) do
+    # TODO: Figure out how to paginate only entries with only one player.
+    #page = Game |> preload(:users) |> Repo.paginate(params)
+    #render(conn, "index.html", games: page.entries, page: page)
+    games = TicTacToe.Playable.active_games()
+    render(conn, "index.html", games: games)
+  end
 
   @doc """
   GET /games/:id
@@ -16,9 +28,9 @@ defmodule TicTacToeWeb.GameController do
 
     case Bodyguard.permit(Game, :view_game, user, game) do
       :ok ->
-        render(conn, "show.html")
+        conn |> assign(:game_id, game.id) |> render("show.html")
       {:error, reason} ->
-        conn |> put_flash(:info, reason) |> redirect(to: game_path(conn, :new))
+        conn |>  put_flash(:info, reason) |> redirect(to: game_path(conn, :new))
       _ ->
         conn |> redirect(to: game_path(conn, :new))
     end
@@ -33,14 +45,13 @@ defmodule TicTacToeWeb.GameController do
   end
 
   @doc """
-  POST /games 
+  POST /games
   Takes no params, when hit will create a new row in the games table with a blank board.
   Will also create a user_games row with the created game id and the current users id.
   """
   def create(conn, _params) do
     changeset = Game.changeset(%Game{board: %{}})
     user = Guardian.Plug.current_resource(conn)
-
 
     case Repo.insert(changeset) do
       {:ok, changeset} ->

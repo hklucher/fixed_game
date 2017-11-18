@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Button from '../Shared/Button';
 import PropTypes from 'prop-types';
 
 const GameRowConfirmation = (props) => {
@@ -12,13 +13,13 @@ const GameRowConfirmation = (props) => {
         </div>
 
         <div className="confirmation__options">
-          <button className="btn btn-primary confirmation__options-action">
+          <Button onPress={() => {}}>
             Yes, let's go!
-          </button>
+          </Button>
 
-          <button className="btn btn-primary confirmation__options-action">
+          <Button onPress={() => {}}>
             Not quite yet.
-          </button>
+          </Button>
         </div>
 
       </div>

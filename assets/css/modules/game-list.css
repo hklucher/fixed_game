@@ -22,6 +22,10 @@
 }
 
 .confirmation__options {
+  flex: 1;
+  max-width: 35%;
+  flex-direction: row;
+  justify-content: space-between;
   padding-left: 10px;
   height: 60px;
   display: flex;

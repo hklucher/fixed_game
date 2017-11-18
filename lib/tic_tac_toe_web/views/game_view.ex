@@ -1,6 +1,5 @@
 defmodule TicTacToeWeb.GameView do
   use TicTacToeWeb, :view
-  import Scrivener.HTML
   alias TicTacToeWeb.GameView
   alias TicTacToe.Playable.Game
 
@@ -35,7 +34,7 @@ defmodule TicTacToeWeb.GameView do
   end
 
   @doc """
-  Returns a formatted time as Hour:Minute from a game's inserted_at. 
+  Returns a formatted time as Hour:Minute from a game's inserted_at.
   Returns a filler string uppon failure to format date.
   """
   @spec formatted_insertion_date(Game.t) :: String.t

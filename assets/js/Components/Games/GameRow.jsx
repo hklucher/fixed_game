@@ -16,6 +16,17 @@ export default class GameRow extends Component {
     this.setState({ showConfirmationExtension: !this.state.showConfirmationExtension });
   }
 
+  goToGame() {
+    // TODO: Replace with real API call.
+    window.fetch('/api/games/:id/users', {
+      method: 'PUT',
+      body: JSON.stringify({
+        user_ids: [1, 2]
+      })
+    })
+    console.log('I will go to a game');
+  }
+
   render() {
     return (
       <div className="container">
@@ -29,7 +40,11 @@ export default class GameRow extends Component {
           </div>
         </div>
 
-        <GameRowConfirmation visible={this.state.showConfirmationExtension} />
+        <GameRowConfirmation
+          cancel={::this.toggleExtension}
+          confirm={this.goToGame}
+          visible={this.state.showConfirmationExtension}
+        />
       </div>
     );
   }

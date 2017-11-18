@@ -13,11 +13,11 @@ const GameRowConfirmation = (props) => {
         </div>
 
         <div className="confirmation__options">
-          <Button onPress={() => {}}>
+          <Button onPress={props.confirm}>
             Yes, let's go!
           </Button>
 
-          <Button onPress={() => {}}>
+          <Button onPress={props.cancel}>
             Not quite yet.
           </Button>
         </div>
@@ -30,6 +30,8 @@ const GameRowConfirmation = (props) => {
 };
 
 GameRowConfirmation.propTypes = {
+  cancel: PropTypes.func.isRequired,
+  confirm: PropTypes.func.isRequired,
   visible: PropTypes.bool,
 };
 

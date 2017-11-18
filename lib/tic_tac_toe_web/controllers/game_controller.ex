@@ -45,7 +45,7 @@ defmodule TicTacToeWeb.GameController do
   end
 
   @doc """
-  POST /games 
+  POST /games
   Takes no params, when hit will create a new row in the games table with a blank board.
   Will also create a user_games row with the created game id and the current users id.
   """

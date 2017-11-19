@@ -7,10 +7,21 @@ defmodule TicTacToe.Playable.Game do
   alias TicTacToe.Player.User
 
   @behaviour Bodyguard.Policy
-
-  @timestamps_opts [type: Timex.Ecto.DateTime,
-                    autogenerate: {Timex.Ecto.DateTime, :autogenerate, []}]
-
+  @timestamps_opts [
+    type: Timex.Ecto.DateTime,
+    autogenerate: {Timex.Ecto.DateTime, :autogenerate, []}
+  ]
+  @default_board %{
+    "0" => "",
+    "1" => "",
+    "2" => "",
+    "3" => "",
+    "4" => "",
+    "5" => "",
+    "6" => "",
+    "7" => "",
+    "8" => ""
+  }
 
   schema "games" do
     field :board, :map
@@ -37,6 +48,16 @@ defmodule TicTacToe.Playable.Game do
 
   @doc false
   def changeset(%Game{} = game, attrs \\ %{}) do
+    game
+    |> cast(attrs, [:board])
+    |> validate_required([:board])
+  end
+
+  @doc """
+  Changest used to create a Game for the first time. Initializes the board
+  to an empty board.
+  """
+  def create_changeset(%Game{} = game, attrs \\ %{board: @default_board}) do
     game
     |> cast(attrs, [:board])
     |> validate_required([:board])

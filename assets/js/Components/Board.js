@@ -12,15 +12,15 @@ export class Board extends Component {
 
     this.state = {
       board: {
-        "0": "",
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": "",
-        "5": "",
-        "6": "",
-        "7": "",
-        "8": ""
+        '0': '',
+        '1': '',
+        '2': '',
+        '3': '',
+        '4': '',
+        '5': '',
+        '6': '',
+        '7': '',
+        '8': '',
       },
 
       playersTurn: true,
@@ -30,13 +30,16 @@ export class Board extends Component {
   }
 
   componentWillMount() {
-    fetch(`/api/games/${GAME_ID}`, () => {
-      method: "GET"
-    }).then(response => {
-      return response.json()
-    }).then(json => {
+    window.fetch(`/api/games/${GAME_ID}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then(response => (
+      response.json()
+    )).then(json => (
       this.setState({ board: json.board, loading: false })
-    })
+    ));
   }
 
   componentDidMount() {
@@ -79,6 +82,7 @@ export class Board extends Component {
   }
 
   renderGrid() {
+    console.log(this.state.board);
     const spots = Object.keys(this.state.board);
     return (
       spots.map(spotNum => {
@@ -87,8 +91,8 @@ export class Board extends Component {
             index={spotNum}
             key={spotNum}
             onClick={this.handleMove.bind(this)}
-            value={this.state.board[spotNum]} 
-          /> 
+            value={this.state.board[spotNum]}
+          />
         )
       })
     )
@@ -101,7 +105,7 @@ export class Board extends Component {
         <Modal hidden={!this.state.showTurnWarning} timeOut={5000}>
           It's not your turn!
         </Modal>
-        
+
         {this.state.loading && <Loader />}
         {!this.state.loading && this.renderGrid()}
       </div>

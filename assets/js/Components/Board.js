@@ -26,6 +26,7 @@ export class Board extends Component {
       playersTurn: true,
       showTurnWarning: false,
       loading: true,
+      victory: null,
     };
   }
 
@@ -54,7 +55,7 @@ export class Board extends Component {
       .receive("error", resp => { console.log("Unable to join", resp) })
 
     this.channel.on("move", payload => {
-      this.setState({ board: payload })
+      this.setState({ board: payload.board, victory: payload.victory })
     })
 
     this.channel.push("get_marker", {})
@@ -82,7 +83,6 @@ export class Board extends Component {
   }
 
   renderGrid() {
-    console.log(this.state.board);
     const spots = Object.keys(this.state.board);
     return (
       spots.map(spotNum => {
@@ -99,6 +99,7 @@ export class Board extends Component {
   }
 
   render() {
+    console.log('WON', this.state.victory);
     return (
 
       <div className="board container">

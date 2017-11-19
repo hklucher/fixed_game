@@ -4,6 +4,13 @@ defmodule TicTacToe.Playable.Board do
   Functions take in a map representing a board, should be taken from the game tables board field.
   """
 
+  @spec won?(map) :: boolean
+  def won?(board) do
+    # This doesn't seem to be working. Kinda important to fix it.
+    # horizontally_won?(board) || vertically_won?(board) || diagonally_won?(board)
+    horizontally_won?(board)
+  end
+
   @doc """
   Converts board to a 2-D list by 3 to serve as rows, will then check if
   any of these rows all have the same value. If that is the case, the function
@@ -11,7 +18,7 @@ defmodule TicTacToe.Playable.Board do
   """
   @spec horizontally_won?(map) :: boolean
   def horizontally_won?(board) do
-    board |> to_rows |> Enum.any?(fn(row) -> length(row |> Enum.uniq) == 1 end)
+    board |> to_rows |> Enum.any?(fn(row) -> values_are_all_indentical?(row) end)
   end
 
   @doc """
@@ -51,4 +58,9 @@ defmodule TicTacToe.Playable.Board do
   end
 
   defp to_rows(board), do: board |> Map.values |> Enum.chunk(3)
+
+  defp values_are_all_indentical?(row) do
+    non_empty_spots = row |> Enum.filter(fn(piece) -> piece != "" end)
+    length(non_empty_spots) == 3 && length(Enum.uniq(non_empty_spots)) == 1
+  end
 end

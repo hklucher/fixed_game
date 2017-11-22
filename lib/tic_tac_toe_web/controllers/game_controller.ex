@@ -11,9 +11,6 @@ defmodule TicTacToeWeb.GameController do
   GET /games
   """
   def index(conn, params) do
-    # TODO: Figure out how to paginate only entries with only one player.
-    #page = Game |> preload(:users) |> Repo.paginate(params)
-    #render(conn, "index.html", games: page.entries, page: page)
     games = TicTacToe.Playable.active_games()
     render(conn, "index.html", games: games)
   end
@@ -31,8 +28,6 @@ defmodule TicTacToeWeb.GameController do
         conn |> assign(:game_id, game.id) |> render("show.html")
       {:error, reason} ->
         conn |>  put_flash(:info, reason) |> redirect(to: game_path(conn, :new))
-      _ ->
-        conn |> redirect(to: game_path(conn, :new))
     end
   end
 
@@ -50,7 +45,7 @@ defmodule TicTacToeWeb.GameController do
   Will also create a user_games row with the created game id and the current users id.
   """
   def create(conn, _params) do
-    changeset = Game.changeset(%Game{board: %{}})
+    changeset = Game.create_changeset(%Game{})
     user = Guardian.Plug.current_resource(conn)
 
     case Repo.insert(changeset) do
@@ -58,8 +53,9 @@ defmodule TicTacToeWeb.GameController do
         association_changeset = UserGames.changeset(%UserGames{}, %{game_id: changeset.id, user_id: user.id})
         Repo.insert(association_changeset)
         conn |> redirect(to: game_path(conn, :show, changeset.id))
-      _ ->
-        render(conn, "new.html")
+      {:error, reason} ->
+        IO.inspect reason
+        render(conn, "new.html", changeset: changeset)
     end
   end
 end

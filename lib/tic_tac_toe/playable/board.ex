@@ -4,6 +4,12 @@ defmodule TicTacToe.Playable.Board do
   Functions take in a map representing a board, should be taken from the game tables board field.
   """
 
+  @spec won?(map) :: boolean
+  def won?(board) do
+    # horizontally_won?(board) || vertically_won?(board) || diagonally_won?(board)
+    horizontally_won?(board) || vertically_won?(board) || diagonally_won?(board)
+  end
+
   @doc """
   Converts board to a 2-D list by 3 to serve as rows, will then check if
   any of these rows all have the same value. If that is the case, the function
@@ -11,7 +17,11 @@ defmodule TicTacToe.Playable.Board do
   """
   @spec horizontally_won?(map) :: boolean
   def horizontally_won?(board) do
-    board |> to_rows |> Enum.any?(fn(row) -> length(row |> Enum.uniq) == 1 end)
+    board
+    |> to_rows
+    |> Enum.any?(fn(row) ->
+      values_are_all_indentical?(row)
+    end)
   end
 
   @doc """
@@ -29,7 +39,7 @@ defmodule TicTacToe.Playable.Board do
   defp vertically_won?(rows, index) do
     vertical_pattern = Enum.map(rows, fn(row) -> Enum.at(row, index) end)
 
-    if length(Enum.uniq(vertical_pattern)) == 1 do
+    if values_are_all_indentical?(vertical_pattern) do
       true
     else
       vertically_won?(rows, index + 1)
@@ -42,13 +52,18 @@ defmodule TicTacToe.Playable.Board do
   """
   @spec diagonally_won?(map) :: boolean
   def diagonally_won?(board) do
-    diagonally_won?(board, [0, 4, 8]) || diagonally_won?(board, [2, 4, 6])
+    diagonally_won?(board, ["0", "4", "8"]) || diagonally_won?(board, ["2", "4", "6"])
   end
 
   defp diagonally_won?(board, spots) do
     diagonal_values = board |> Map.take(spots) |> Map.values()
-    length(Enum.uniq(diagonal_values)) == 1
+    values_are_all_indentical?(diagonal_values)
   end
 
   defp to_rows(board), do: board |> Map.values |> Enum.chunk(3)
+
+  defp values_are_all_indentical?(row) do
+    non_empty_spots = row |> Enum.filter(fn(piece) -> piece != "" end)
+    length(non_empty_spots) == 3 && length(Enum.uniq(non_empty_spots)) == 1
+  end
 end

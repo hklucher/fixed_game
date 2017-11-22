@@ -1,6 +1,7 @@
 defmodule TicTacToeWeb.GameChannel do
   use Phoenix.Channel
   alias TicTacToe.Presence
+  alias TicTacToe.Playable.Board
 
   def join("game", payload, socket) do
     send(self(), :after_join)
@@ -8,10 +9,13 @@ defmodule TicTacToeWeb.GameChannel do
   end
 
   def handle_in("move", %{"board" => board, "game_id" => game_id}, socket) do
-    broadcast!(socket, "move", board)
+    broadcast!(socket, "move", %{board: board, victory: Board.won?(board)})
     game = TicTacToe.Playable.get_game!(game_id)
-    # TODO: Extract to module, handle errors?
+    # Check for a victory here after update.
     {:ok, _} = TicTacToe.Playable.update_game(game, %{board: board})
+
+    # Typical response could look like:
+    # {victory: "horizontal", board: {...}}
 
     {:noreply, socket}
   end

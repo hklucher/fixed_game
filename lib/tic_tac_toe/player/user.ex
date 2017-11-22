@@ -24,8 +24,7 @@ defmodule TicTacToe.Player.User do
   end
 
   @doc """
-    Used when creating a new user, will use bcrypt to
-    hash password.
+    Used when creating a new user, will use bcrypt to hash password.
   """
   def registration_changeset(model, params) do
     model

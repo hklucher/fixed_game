@@ -1,5 +1,9 @@
+// Takes a board as only argument, returns number of moves that have already occurred.
 export const calculateNumberOfMoves = (board) => {
-  // Takes in a board
-  // Find all spots that are not empty. This is the amount of turns that have already been taken.
   return Object.values(board).filter(spotValue => spotValue !== '').length;
+}
+
+// Returns the number of possible moves for a board. 
+export const calculateTotalPossibleMoves = (board) => {
+  return Object.values(board).length;
 }

@@ -22,7 +22,7 @@ import socket from "./socket"
 
 import React from "react"
 import { render } from "react-dom"
-import Board from "./Components/Board.js"
+import Game from "./Components/Game.js"
 import GameList from "./Components/Games/GameList"
 import Alert from "./Utilities/Alert.js"
 
@@ -30,7 +30,7 @@ import Alert from "./Utilities/Alert.js"
 // TODO: Implement react_phoenix to clean all this up.
 if (document.getElementById("new-game")) {
   render(
-    <Board/>,
+    <Game/>,
     document.getElementById("new-game")
   )
 }

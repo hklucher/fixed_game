@@ -1,119 +1,27 @@
-import React, { Component } from "react"
-import Spot from "./Spot"
-import Modal from "./Shared/Modal"
-import Loader from "./Shared/Loader"
-import MoveTracker from './MoveTracker';
-import { Socket } from "phoenix"
+import React from 'react';
+import PropTypes from 'prop-types';
+import Spot from './Spot';
 
-export class Board extends Component {
-  constructor(props) {
-    super(props);
+const Board = (props) => {
+  const spots = Object.keys(props.board)
 
-    this.channel = null;
-
-    this.state = {
-      board: {
-        '0': '',
-        '1': '',
-        '2': '',
-        '3': '',
-        '4': '',
-        '5': '',
-        '6': '',
-        '7': '',
-        '8': '',
-      },
-
-      playersTurn: true,
-      showTurnWarning: false,
-      loading: true,
-      victory: false,
-    };
-  }
-
-  componentWillMount() {
-    window.fetch(`/api/games/${GAME_ID}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }).then(response => (
-      response.json()
-    )).then(json => (
-      this.setState({ board: json.board, loading: false })
-    ));
-  }
-
-  componentDidMount() {
-    let socket = new Socket("/socket", {params: {token: window.userToken}})
-
-    socket.connect()
-
-    this.channel = socket.channel("game", {user_id: USER_ID})
-    // TODO: Handle failed connections in state.
-    this.channel.join()
-      .receive("ok", resp => { console.log("Joined!", resp) })
-      .receive("error", resp => { console.log("Unable to join", resp) })
-
-    this.channel.on("move", payload => {
-      this.setState({ board: payload.board, victory: payload.victory })
+  return (
+    spots.map(spotNum => {
+      return (
+        <Spot
+          index={spotNum}
+          key={spotNum}
+          onClick={props.handleMove}
+          value={props.board[spotNum]}
+        />
+      )
     })
-
-    this.channel.push("get_marker", {})
-
-    this.channel.on("get_marker", payload => {
-      if (!this.marker) {
-        this.marker = payload.marker
-
-        //if (payload.marker === "X") {
-          //this.setState({ playersTurn: false })
-        //}
-      }
-    })
-  }
-
-  handleMove(index) {
-    if (this.state.playersTurn) {
-      this.setState({ board: { ...this.state.board, [index]: this.marker }}, () => {
-
-        this.channel.push("move", { board: this.state.board, game_id: GAME_ID })
-      });
-    } else {
-      this.setState({ showTurnWarning: true })
-    }
-  }
-
-  renderGrid() {
-    const spots = Object.keys(this.state.board);
-    return (
-      spots.map(spotNum => {
-        return (
-          <Spot
-            index={spotNum}
-            key={spotNum}
-            onClick={this.handleMove.bind(this)}
-            value={this.state.board[spotNum]}
-          />
-        )
-      })
-    )
-  }
-
-  render() {
-    return (
-      <div className="board container">
-        <Modal hidden={!this.state.showTurnWarning} timeOut={5000}>
-          It's not your turn!
-        </Modal>
-
-        <MoveTracker board={this.state.board} />
-
-        {this.state.loading && <Loader />}
-        {!this.state.loading && this.renderGrid()}
-      </div>
-    )
-  }
+  )
 }
 
+Board.propTypes = {
+  board: PropTypes.object.isRequired,
+  handleMove: PropTypes.func.isRequired,
+};
 
-export default Board
+export default Board;

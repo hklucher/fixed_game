@@ -26,7 +26,8 @@ defmodule TicTacToe.Playable do
   Returns a list of games with only one player, ordered by inserted_at.
   """
   def active_games(limit \\ 100) do
-    query = from g in Game, preload: :users, limit: ^limit
+    # query = from g in Game, preload: :users, limit: ^limit
+    query = from g in Game, preload: :users, order_by: [desc: :inserted_at]
 
     query
     |> Repo.all()

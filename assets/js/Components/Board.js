@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import Spot from "./Spot"
 import Modal from "./Shared/Modal"
 import Loader from "./Shared/Loader"
+import MoveTracker from './MoveTracker';
 import { Socket } from "phoenix"
 
 export class Board extends Component {
@@ -26,7 +27,7 @@ export class Board extends Component {
       playersTurn: true,
       showTurnWarning: false,
       loading: true,
-      victory: null,
+      victory: false,
     };
   }
 
@@ -99,13 +100,13 @@ export class Board extends Component {
   }
 
   render() {
-    console.log('WON', this.state.victory);
     return (
-
       <div className="board container">
         <Modal hidden={!this.state.showTurnWarning} timeOut={5000}>
           It's not your turn!
         </Modal>
+
+        <MoveTracker board={this.state.board} />
 
         {this.state.loading && <Loader />}
         {!this.state.loading && this.renderGrid()}

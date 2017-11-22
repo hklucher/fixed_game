@@ -4,7 +4,7 @@ import Modal from "./Shared/Modal"
 import Loader from "./Shared/Loader"
 import MoveTracker from './MoveTracker';
 import { Socket } from "phoenix"
-import { calculateNumberOfMoves, calculateTotalPossibleMoves } from "../helpers/gameHelpers";
+import { gameIsOver } from "../helpers/gameHelpers";
 import FinishedGame from './FinishedGame';
 import Board from './Board';
 
@@ -28,9 +28,9 @@ export class Game extends Component {
       },
 
       playersTurn: true,
-      showTurnWarning: false,
       loading: true,
       victory: false,
+      gameIsOver: false,
     };
   }
 
@@ -42,9 +42,13 @@ export class Game extends Component {
       },
     }).then(response => (
       response.json()
-    )).then(json => (
+    )).then((json) => {
+      if (gameIsOver(json.board)) {
+        this.setState({ gameIsOver: true })
+      }
+
       this.setState({ board: json.board, loading: false })
-    ));
+    });
   }
 
   componentDidMount() {
@@ -87,7 +91,7 @@ export class Game extends Component {
   }
 
   gameIsOver() {
-    return calculateNumberOfMoves(this.state.board) === calculateTotalPossibleMoves(this.state.board);
+    return this.state.gameIsOver || this.state.victory;
   }
 
   render() {
@@ -97,10 +101,10 @@ export class Game extends Component {
           It's not your turn!
         </Modal>
 
+        {this.gameIsOver()  && <FinishedGame />}
         <MoveTracker board={this.state.board} playersTurn={this.state.playersTurn} />
 
         {this.state.loading && <Loader />}
-        {this.gameIsOver() && <FinishedGame />}
         {!this.state.loading && <Board board={this.state.board} handleMove={this.handleMove.bind(this)} />}
       </div>
     )

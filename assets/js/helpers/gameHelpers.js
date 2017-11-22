@@ -7,3 +7,7 @@ export const calculateNumberOfMoves = (board) => {
 export const calculateTotalPossibleMoves = (board) => {
   return Object.values(board).length;
 }
+
+export const gameIsOver = (board) => {
+  return calculateNumberOfMoves(board) === calculateTotalPossibleMoves(board);
+}

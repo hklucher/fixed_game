@@ -6,9 +6,8 @@ defmodule TicTacToe.Playable.Board do
 
   @spec won?(map) :: boolean
   def won?(board) do
-    # This doesn't seem to be working. Kinda important to fix it.
     # horizontally_won?(board) || vertically_won?(board) || diagonally_won?(board)
-    horizontally_won?(board)
+    horizontally_won?(board) || vertically_won?(board) || diagonally_won?(board)
   end
 
   @doc """
@@ -18,7 +17,11 @@ defmodule TicTacToe.Playable.Board do
   """
   @spec horizontally_won?(map) :: boolean
   def horizontally_won?(board) do
-    board |> to_rows |> Enum.any?(fn(row) -> values_are_all_indentical?(row) end)
+    board
+    |> to_rows
+    |> Enum.any?(fn(row) ->
+      values_are_all_indentical?(row)
+    end)
   end
 
   @doc """
@@ -36,7 +39,7 @@ defmodule TicTacToe.Playable.Board do
   defp vertically_won?(rows, index) do
     vertical_pattern = Enum.map(rows, fn(row) -> Enum.at(row, index) end)
 
-    if length(Enum.uniq(vertical_pattern)) == 1 do
+    if values_are_all_indentical?(vertical_pattern) do
       true
     else
       vertically_won?(rows, index + 1)
@@ -49,12 +52,12 @@ defmodule TicTacToe.Playable.Board do
   """
   @spec diagonally_won?(map) :: boolean
   def diagonally_won?(board) do
-    diagonally_won?(board, [0, 4, 8]) || diagonally_won?(board, [2, 4, 6])
+    diagonally_won?(board, ["0", "4", "8"]) || diagonally_won?(board, ["2", "4", "6"])
   end
 
   defp diagonally_won?(board, spots) do
     diagonal_values = board |> Map.take(spots) |> Map.values()
-    length(Enum.uniq(diagonal_values)) == 1
+    values_are_all_indentical?(diagonal_values)
   end
 
   defp to_rows(board), do: board |> Map.values |> Enum.chunk(3)

@@ -11,9 +11,6 @@ defmodule TicTacToeWeb.GameController do
   GET /games
   """
   def index(conn, params) do
-    # TODO: Figure out how to paginate only entries with only one player.
-    #page = Game |> preload(:users) |> Repo.paginate(params)
-    #render(conn, "index.html", games: page.entries, page: page)
     games = TicTacToe.Playable.active_games()
     render(conn, "index.html", games: games)
   end
@@ -31,8 +28,6 @@ defmodule TicTacToeWeb.GameController do
         conn |> assign(:game_id, game.id) |> render("show.html")
       {:error, reason} ->
         conn |>  put_flash(:info, reason) |> redirect(to: game_path(conn, :new))
-      _ ->
-        conn |> redirect(to: game_path(conn, :new))
     end
   end
 

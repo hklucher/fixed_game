@@ -9,6 +9,7 @@ const Board = (props) => {
     spots.map(spotNum => {
       return (
         <Spot
+          disabled={props.gameIsOver}
           index={spotNum}
           key={spotNum}
           onClick={props.handleMove}
@@ -21,6 +22,7 @@ const Board = (props) => {
 
 Board.propTypes = {
   board: PropTypes.object.isRequired,
+  gameIsOver: PropTypes.bool.isRequired,
   handleMove: PropTypes.func.isRequired,
 };
 

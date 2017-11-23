@@ -47,7 +47,7 @@ export class Game extends Component {
         this.setState({ gameIsOver: true })
       }
 
-      this.setState({ board: json.board, loading: false })
+      this.setState({ board: json.board, loading: false, victory: json.victory })
     });
   }
 
@@ -66,8 +66,6 @@ export class Game extends Component {
       this.setState({ board: payload.board, victory: payload.victory, playersTurn: !this.state.playersTurn })
     })
 
-    this.channel.push("get_marker", {})
-
     this.channel.on("get_marker", payload => {
       if (!this.marker) {
         this.marker = payload.marker
@@ -80,6 +78,8 @@ export class Game extends Component {
   }
 
   handleMove(index) {
+    if (this.gameIsOver()) { return; }
+
     if (this.state.playersTurn) {
       this.setState({ board: { ...this.state.board, [index]: this.marker }}, () => {
 
@@ -105,7 +105,7 @@ export class Game extends Component {
         <MoveTracker board={this.state.board} playersTurn={this.state.playersTurn} />
 
         {this.state.loading && <Loader />}
-        {!this.state.loading && <Board board={this.state.board} handleMove={this.handleMove.bind(this)} />}
+        {!this.state.loading && <Board gameIsOver={this.gameIsOver()} board={this.state.board} handleMove={this.handleMove.bind(this)} />}
       </div>
     )
   }

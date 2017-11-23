@@ -6,8 +6,17 @@
   width: 100px;
 }
 
+.spot.disabled {
+  border: 1px solid #d3d3d3;
+  color: #d3d3d3;
+}
+
 .spot:hover {
   cursor: pointer;
+}
+
+.spot.disabled:hover {
+  cursor: default;
 }
 
 .move-tracker {

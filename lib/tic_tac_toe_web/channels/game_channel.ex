@@ -14,11 +14,7 @@ defmodule TicTacToeWeb.GameChannel do
   def handle_in("move", %{"board" => board, "game_id" => game_id}, socket) do
     broadcast!(socket, "move", %{board: board, victory: Board.won?(board)})
     game = TicTacToe.Playable.get_game!(game_id)
-    # Check for a victory here after update.
     {:ok, _} = TicTacToe.Playable.update_game(game, %{board: board})
-
-    # Typical response could look like:
-    # {victory: "horizontal", board: {...}}
 
     {:noreply, socket}
   end

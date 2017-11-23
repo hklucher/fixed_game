@@ -47,46 +47,45 @@ export class Game extends Component {
         this.setState({ gameIsOver: true })
       }
 
-      this.setState({ board: json.board, loading: false })
+      this.setState({ board: json.board, loading: false, victory: json.victory })
     });
   }
 
   componentDidMount() {
-    let socket = new Socket("/socket", {params: {token: window.userToken}})
+    let socket = new Socket("/socket", { params: { token: window.userToken } })
 
     socket.connect()
 
-    this.channel = socket.channel("game", { user_id: USER_ID })
+    this.channel = socket.channel(`games:${GAME_ID}`, { user_id: USER_ID })
 
     this.channel.join()
-      .receive("ok", resp => { console.log("Joined!", resp) })
-      .receive("error", resp => { console.log("Unable to join", resp) })
+      .receive('ok', resp => { console.log('Joined!', resp) })
+      .receive('error', resp => { console.log('Unable to join', resp) })
 
-    this.channel.on("move", payload => {
+    this.channel.on('move', payload => {
       this.setState({ board: payload.board, victory: payload.victory, playersTurn: !this.state.playersTurn })
     })
 
-    this.channel.push("get_marker", {})
-
-    this.channel.on("get_marker", payload => {
+    this.channel.on('get_marker', payload => {
       if (!this.marker) {
         this.marker = payload.marker
 
-        if (payload.marker === "X") {
-          this.setState({ playersTurn: false })
+        if (payload.marker === 'X') {
+          this.setState({ playersTurn: false });
         }
       }
     })
   }
 
   handleMove(index) {
-    if (this.state.playersTurn) {
-      this.setState({ board: { ...this.state.board, [index]: this.marker }}, () => {
+    if (this.gameIsOver()) { return; }
 
-        this.channel.push("move", { board: this.state.board, game_id: GAME_ID })
+    if (this.state.playersTurn) {
+      this.setState({ board: { ...this.state.board, [index]: this.marker } }, () => {
+        this.channel.push('move', { board: this.state.board, game_id: GAME_ID });
       });
     } else {
-      this.setState({ showTurnWarning: true })
+      this.setState({ showTurnWarning: true });
     }
   }
 
@@ -102,10 +101,10 @@ export class Game extends Component {
         </Modal>
 
         {this.gameIsOver()  && <FinishedGame />}
-        <MoveTracker board={this.state.board} playersTurn={this.state.playersTurn} />
+        <MoveTracker board={this.state.board} gameIsOver={this.gameIsOver()} playersTurn={this.state.playersTurn} />
 
         {this.state.loading && <Loader />}
-        {!this.state.loading && <Board board={this.state.board} handleMove={this.handleMove.bind(this)} />}
+        {!this.state.loading && <Board gameIsOver={this.gameIsOver()} board={this.state.board} handleMove={this.handleMove.bind(this)} />}
       </div>
     )
   }

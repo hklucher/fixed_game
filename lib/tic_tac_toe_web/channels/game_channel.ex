@@ -3,9 +3,10 @@ defmodule TicTacToeWeb.GameChannel do
   alias TicTacToe.Presence
   alias TicTacToe.Playable.Board
 
-  def join("game", payload, socket) do
+  def join("games:" <> game_id, payload, socket) do
+    game = TicTacToe.Playable.get_game!(game_id)
     send(self(), :after_join)
-    {:ok, assign(socket, :user_id, payload["user_id"])}
+    {:ok, %{stuff: "thang"}, assign(socket, :game, game)}
   end
 
   def handle_in("move", %{"board" => board, "game_id" => game_id}, socket) do

@@ -52,11 +52,11 @@ export class Game extends Component {
   }
 
   componentDidMount() {
-    let socket = new Socket("/socket", {params: {token: window.userToken}})
+    let socket = new Socket("/socket", { params: { token: window.userToken } })
 
     socket.connect()
 
-    this.channel = socket.channel("game", { user_id: USER_ID })
+    this.channel = socket.channel("games:151", { user_id: USER_ID })
 
     this.channel.join()
       .receive("ok", resp => { console.log("Joined!", resp) })

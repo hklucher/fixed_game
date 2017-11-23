@@ -1,11 +1,14 @@
 defmodule TicTacToeWeb.GameChannel do
   use Phoenix.Channel
-  alias TicTacToe.Presence
+  alias TicTacToe.GamePresence
   alias TicTacToe.Playable.Board
 
   def join("games:" <> game_id, payload, socket) do
     game = TicTacToe.Playable.get_game!(game_id)
-    {:ok, %{board: game.board}, assign(socket, :game, game)}
+    send(self, {:after_join, payload["user_id"]})
+    IO.inspect "Down there?"
+    IO.inspect GamePresence.list("games:" <> game_id)
+    {:ok, %{board: game.board}, assign(socket, :user_id, payload["user_id"])}
   end
 
   def handle_in("move", %{"board" => board, "game_id" => game_id}, socket) do
@@ -20,18 +23,17 @@ defmodule TicTacToeWeb.GameChannel do
     {:noreply, socket}
   end
 
-  def handle_in("get_marker", _params, socket) do
-    user_ids = socket |> Presence.list |> Map.keys
-    marker = if length(user_ids) == 1, do: "X", else: "O"
+  def handle_info({:after_join, user_id}, socket) do
+    push socket, "presence_state", GamePresence.list(socket)
+    {:ok, _} = GamePresence.track(socket, socket.assigns.user_id, %{
+      online_at: inspect(System.system_time(:seconds))
+    })
+
+    user_count = length(socket |> GamePresence.list |> Map.keys)
+    marker = if user_count == 2, do: "O", else: "X"
+
     broadcast(socket, "get_marker", %{marker: marker})
+
     {:noreply, socket}
   end
-
-  # def handle_info(:after_join, socket) do
-  #   push socket, "presence_state", Presence.list(socket)
-  #   {:ok, _} = Presence.track(socket, socket.assigns.user_id, %{
-  #     online_at: inspect(System.system_time(:seconds))
-  #   })
-  #   {:noreply, socket}
-  # end
 end

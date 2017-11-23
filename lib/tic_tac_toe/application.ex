@@ -14,7 +14,7 @@ defmodule TicTacToe.Application do
       supervisor(TicTacToeWeb.Endpoint, []),
       # Start your own worker by calling: TicTacToe.Worker.start_link(arg1, arg2, arg3)
       # worker(TicTacToe.Worker, [arg1, arg2, arg3]),
-      supervisor(TicTacToe.Presence, []),
+      supervisor(TicTacToe.GamePresence, []),
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

@@ -23,19 +23,24 @@ export default class MoveTracker extends Component {
     const numberOfMovesMade = calculateNumberOfMoves(this.props.board);
     const numberOfPossibleMoves = calculateTotalPossibleMoves(this.props.board);
 
-    return (
-      <div className="move-tracker">
-        <p>
-          {`Move ${numberOfMovesMade}/${numberOfPossibleMoves}`}
-        </p>
+    if (!this.props.gameIsOver) {
+      return (
+        <div className="move-tracker">
+          <p>
+            {`Move ${numberOfMovesMade}/${numberOfPossibleMoves}`}
+          </p>
 
-        {this.renderPlayersTurn()}
-      </div>
-    )
+          {this.renderPlayersTurn()}
+        </div>
+      )
+    } else {
+      return null;
+    }
   }
 }
 
 MoveTracker.propTypes = {
   board: PropTypes.object.isRequired,
+  gameIsOver: PropTypes.bool.isRequired,
   playersTurn: PropTypes.bool.isRequired,
 };

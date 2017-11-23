@@ -56,7 +56,7 @@ export class Game extends Component {
 
     socket.connect()
 
-    this.channel = socket.channel("games:151", { user_id: USER_ID })
+    this.channel = socket.channel(`games:${GAME_ID}`, { user_id: USER_ID })
 
     this.channel.join()
       .receive("ok", resp => { console.log("Joined!", resp) })

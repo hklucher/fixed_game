@@ -5,8 +5,7 @@ defmodule TicTacToeWeb.GameChannel do
 
   def join("games:" <> game_id, payload, socket) do
     game = TicTacToe.Playable.get_game!(game_id)
-    send(self(), :after_join)
-    {:ok, %{stuff: "thang"}, assign(socket, :game, game)}
+    {:ok, %{board: game.board}, assign(socket, :game, game)}
   end
 
   def handle_in("move", %{"board" => board, "game_id" => game_id}, socket) do
@@ -28,11 +27,11 @@ defmodule TicTacToeWeb.GameChannel do
     {:noreply, socket}
   end
 
-  def handle_info(:after_join, socket) do
-    push socket, "presence_state", Presence.list(socket)
-    {:ok, _} = Presence.track(socket, socket.assigns.user_id, %{
-      online_at: inspect(System.system_time(:seconds))
-    })
-    {:noreply, socket}
-  end
+  # def handle_info(:after_join, socket) do
+  #   push socket, "presence_state", Presence.list(socket)
+  #   {:ok, _} = Presence.track(socket, socket.assigns.user_id, %{
+  #     online_at: inspect(System.system_time(:seconds))
+  #   })
+  #   {:noreply, socket}
+  # end
 end

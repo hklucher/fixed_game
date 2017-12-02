@@ -1,5 +1,3 @@
-#TODO: Figure out what to do about this vs the regular GameView.
-
 defmodule TicTacToeWeb.Api.GameView do
   use TicTacToeWeb, :view
   alias TicTacToeWeb.GameView

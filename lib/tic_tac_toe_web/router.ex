@@ -24,6 +24,8 @@ defmodule TicTacToeWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug Guardian.Plug.VerifyHeader
+    plug Guardian.Plug.LoadResource
   end
 
   scope "/", TicTacToeWeb do
@@ -47,6 +49,7 @@ defmodule TicTacToeWeb.Router do
    scope "/api", TicTacToeWeb, as: :api do
      pipe_through :api
 
+     resources "/sessions", Api.SessionController, only: [:create]
      resources "/games", Api.GameController, only: [:index, :show, :update]
      resources "/user_games", Api.UserGamesController, only: [:create]
    end

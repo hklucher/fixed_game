@@ -25,6 +25,7 @@ defmodule TicTacToe.Player.User do
 
   @doc """
     Used when creating a new user, will use bcrypt to hash password.
+    Once password is hashed, casts password field to nil.
   """
   def registration_changeset(model, params) do
     model
@@ -32,6 +33,7 @@ defmodule TicTacToe.Player.User do
     |> cast(params, ~w(password), [])
     |> validate_length(:password, min: 6)
     |> put_password_hash()
+    |> cast(%{"password" => nil}, ~w(password), [])
   end
 
   defp put_password_hash(changeset) do

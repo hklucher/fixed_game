@@ -1,14 +1,11 @@
 defmodule TicTacToeWeb.Api.SessionController do
   use TicTacToeWeb, :controller
 
-  alias TicTacToe.Player.User
+  alias TicTacToe.Player
   alias TicTacToe.Repo
 
-  import Ecto.Query
-
   def create(conn, %{"username" => username, "password" => password}) do
-    query = from u in User, where: u.username == ^username
-    user = Repo.one(query)
+    user = TicTacToe.Player.get_user_by_username!(username)
 
     case Comeonin.Bcrypt.check_pass(user, password) do
       {:ok, authenticated_user} ->

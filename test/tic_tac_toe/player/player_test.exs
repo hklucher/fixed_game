@@ -29,6 +29,11 @@ defmodule TicTacToe.PlayerTest do
       assert Player.get_user!(user.id) == user
     end
 
+    test "get_user!/1 returns the user with the given username" do
+      user = user_fixture()
+      assert Player.get_user_by_username!(user.username) == user
+    end
+
     test "create_user/1 with valid data creates a user" do
       assert {:ok, %User{} = user} = Player.create_user(@valid_attrs)
       assert user.username == "some username"

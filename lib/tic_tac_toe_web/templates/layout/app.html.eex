@@ -19,6 +19,10 @@
       <%= if Guardian.Plug.current_resource(@conn) do %>
         <div class="nav-right">
           <div class="row">
+            <div class="col-sm-3">
+              <%= link("Games", to: game_path(@conn, :index), class: "nav-link") %>
+            </div>
+
             <div class="col-sm-6">
               <%= link("Log Out", to: session_path(@conn, :delete), method: :delete, class: "nav-link") %>
             </div>

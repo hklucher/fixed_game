@@ -47,6 +47,17 @@ defmodule TicTacToe.Player do
   end
 
   @doc """
+  Gets a single user by username.
+
+  Returns nil if the User does not exist.
+  """
+  
+  def get_user_by_username(username) do
+    Repo.get_by(User, username: username)
+  end
+
+
+  @doc """
   Creates a user.
 
   ## Examples

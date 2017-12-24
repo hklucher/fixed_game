@@ -12,8 +12,16 @@
 
 IO.puts("Inserting dummy games...")
 
+user_changeset = TicTacToe.Player.User.changeset(%TicTacToe.Player.User{}, %{username: "test_user"})
+
+{:ok, user} = TicTacToe.Repo.insert(user_changeset)
+
 for i <- 1..100 do
-  TicTacToe.Repo.insert!(TicTacToe.Playable.Game.changeset(%TicTacToe.Playable.Game{}, %{board: %{}}))
+  {:ok, game} = TicTacToe.Repo.insert(TicTacToe.Playable.Game.create_changeset(%TicTacToe.Playable.Game{}))
+
+  user_game_changeset = TicTacToe.UserGames.changeset(%TicTacToe.UserGames{}, %{user_id: user.id, game_id: game.id})
+
+  {:ok, _} = TicTacToe.Repo.insert(user_game_changeset)
 end
 
 IO.puts("Completed inserting games.")
